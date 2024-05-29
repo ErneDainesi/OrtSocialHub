@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Button, Text, View } from "react-native";
+import {ADDRESS, PORT} from "@env";
 
 export const MyButton = () => {
     const helloWorld = async () => {
         try {
-            const dir = process.env.ADDRESS + process.env.PORT;
-            const res = await fetch(dir, {
+            const res = await fetch(ADDRESS + PORT, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
