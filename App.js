@@ -4,7 +4,7 @@ import Register from './screens/Register';
 import Home from './screens/Home';
 import Error from './screens/Error';
 import Login from './screens/Login';
-import { AuthProvider } from './context/Auth';
+import { AuthProvider } from './context/AuthContext';
 
 const Stack = createStackNavigator();
 

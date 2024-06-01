@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Switch } from "react-native";
-import { AuthContext } from "../context/Auth";
+import { AuthContext } from "../context/AuthContext";
 
 const Register = ({ navigation }) => {
     const [firstName, setFirstName] = useState('');
