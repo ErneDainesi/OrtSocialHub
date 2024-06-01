@@ -7,6 +7,7 @@ const Register = ({ navigation }) => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [secureText, setSecureText] = useState(true);
     const [passwordError, setPasswordError] = useState(false);
     const { register } = useContext(AuthContext);
 
@@ -49,11 +50,15 @@ const Register = ({ navigation }) => {
                         (<Text style={styles.passError}>Password must have at least 12 characters</Text>)
                 }
                 <TextInput style={styles.input}
-                    secureTextEntry={true}
+                    secureTextEntry={secureText}
                     placeholder="Password"
                     value={password}
                     onChangeText={setPassword}
                 />
+                <View>
+                    <Text style={{paddingTop: '.5rem'}}>Hide password</Text>
+                    <Switch value={secureText} onValueChange={setSecureText}></Switch>
+                </View>
                 <Button
                     title="Submit"
                     onPress={handleSubmit}
