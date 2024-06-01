@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { useContext, useState } from "react";
+import { View, Text, TextInput, Button, StyleSheet, Switch } from "react-native";
+import { AuthContext } from "../context/Auth";
 
 const Register = ({ navigation }) => {
     const [firstName, setFirstName] = useState('');
@@ -7,39 +8,20 @@ const Register = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState(false);
+    const { register } = useContext(AuthContext);
 
     const goToLogin = () => {
         navigation.navigate("Login");
     }
 
-    const handleSubmit = async () => {
-        try {
-            if (password.length < 12) {
-                setPasswordError(true);
-                return;
-            }
-            const body = JSON.stringify({firstName, lastName, email, password});
-            const response = await fetch(process.env.DEV_URL + '/register', {
-                method: "POST",
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-type': 'application/json'
-                },
-                body
-            });
-            const result = await response.json();
-            if (result.success) {
-                console.log(result.user);
-                navigation.navigate("Home");
-            } else {
-                console.log(result.error);
-                navigation.navigate("Error");
-            }
-        } catch (error) {
-            console.log(error) // TODO: delete this, we shouldn't log errors on client
-            navigation.navigate("Error");
+    const handleSubmit = () => {
+        if (password.length < 12) {
+            setPasswordError(true);
+        } else {
+            register({firstName, lastName, email, password})
         }
     }
+
     return (
         <View>
             <View style={styles.titleContainer}>
