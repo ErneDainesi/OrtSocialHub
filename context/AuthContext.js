@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext } from "react";
 
 export const AuthContext = createContext();
@@ -14,6 +15,7 @@ export const AuthProvider = ({ children }) => {
             });
             const result = await response.json();
             if (result.success) {
+                await AsyncStorage.setItem('currentUserId', result.user.id);
                 navigation.navigate("Home");
             } else {
                 navigation.navigate("Error");
