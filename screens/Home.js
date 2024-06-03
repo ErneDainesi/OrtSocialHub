@@ -1,16 +1,12 @@
-import { View, Text, Button } from "react-native";
+import { View, Text } from "react-native";
+import Composer from "../components/Composer";
+import Feed from "../components/Feed";
 
 const Home = ({ navigation }) => {
-    const goToRegister = () => {
-        navigation.navigate("Register");
-    }
     return (
         <View>
             <Text>Home</Text>
-            <Button
-                onPress={goToRegister}
-                title="goToRegister"
-            ></Button>
+            <Composer></Composer>
         </View>
     );
 };
