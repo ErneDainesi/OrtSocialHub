@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { View } from "react-native";
+import { FeedContext } from "../context/FeedContext";
 
 const Feed = () => {
-    const [posts, setPosts] = useState([]);
+    const { posts } = useContext(FeedContext);
     return (
         <View>
         </View>

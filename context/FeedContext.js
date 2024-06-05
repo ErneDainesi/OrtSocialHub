@@ -3,7 +3,28 @@ import { useContext, useState } from "react";
 export const FeedContext = useContext();
 
 export const FeedProvider = ({ children }) => {
-    const [posts, setsPosts] = useState([]);
+    const [posts, setPosts] = useState([]);
+
+    const fetchHomeFeed = async () => {
+        try {
+            const currentUserId = await AsyncStorage.getItem('currentUserId');
+            const respuesta = await fetch(process.env.DEV_URL + `/post/home/${currentUserId}`)
+            const data = await respuesta.json();
+            setProductos(data)
+        } catch (error) {
+            console.error('Error en el fetch de productos: ', error)
+        }
+    }
+
+    const fetchProfileFeed = async (userId) => {
+        try {
+            const respuesta = await fetch(process.env.DEV_URL + `/post/profile/${userId}`)
+            const data = await respuesta.json();
+            setProductos(data)
+        } catch (error) {
+            console.error('Error en el fetch de productos: ', error)
+        }
+    }
 
     const post = async (text) => {
         try {
@@ -13,11 +34,11 @@ export const FeedProvider = ({ children }) => {
                 headers: {
                     'Content-type': 'application/json'
                 },
-                body: JSON.stringify({creator: currentUserId, text})
+                body: JSON.stringify({UserId: currentUserId, text})
             });
             const result = await response.json();
             if (result.success) {
-                setsPosts(prevPosts => [...prevPosts, result.newPost]);
+                // setsPosts(prevPosts => [...prevPosts, result.newPost]);
                 alert("New post added");
             } else {
                 alert("Error posting");

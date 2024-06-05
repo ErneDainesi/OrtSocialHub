@@ -1,9 +1,10 @@
 import { Text, View } from "react-native";
 
-const Post = (props) => {
+const Post = ({user, text}) => {
     return (
         <View>
-            <Text>This is a post</Text>
+            <Text>{`${user.firstName} ${user.lastName}`}</Text>
+            <Text>{text}</Text>
         </View>
     );
 }
