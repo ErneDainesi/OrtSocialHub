@@ -1,6 +1,7 @@
-import { useContext, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createContext, useState } from "react";
 
-export const FeedContext = useContext();
+export const FeedContext = createContext();
 
 export const FeedProvider = ({ children }) => {
     const [posts, setPosts] = useState([]);
@@ -8,21 +9,21 @@ export const FeedProvider = ({ children }) => {
     const fetchHomeFeed = async () => {
         try {
             const currentUserId = await AsyncStorage.getItem('currentUserId');
-            const respuesta = await fetch(process.env.DEV_URL + `/post/home/${currentUserId}`)
+            const respuesta = await fetch(process.env.DEV_URL + `/post/home/${currentUserId}`);
             const data = await respuesta.json();
-            setProductos(data)
+            setPosts(data);
         } catch (error) {
-            console.error('Error en el fetch de productos: ', error)
+            console.error('Error en el fetch de productos: ', error);
         }
     }
 
     const fetchProfileFeed = async (userId) => {
         try {
-            const respuesta = await fetch(process.env.DEV_URL + `/post/profile/${userId}`)
+            const respuesta = await fetch(process.env.DEV_URL + `/post/profile/${userId}`);
             const data = await respuesta.json();
-            setProductos(data)
+            setPosts(data);
         } catch (error) {
-            console.error('Error en el fetch de productos: ', error)
+            console.error('Error en el fetch de productos: ', error);
         }
     }
 
@@ -38,9 +39,12 @@ export const FeedProvider = ({ children }) => {
             });
             const result = await response.json();
             if (result.success) {
-                // setsPosts(prevPosts => [...prevPosts, result.newPost]);
+                console.log(result);
+                const {post, user} = result;
+                setPosts(prevPosts => [...prevPosts, {post, user}]);
                 alert("New post added");
             } else {
+                console.log(result.error);
                 alert("Error posting");
             }
         } catch (error) {
@@ -50,8 +54,8 @@ export const FeedProvider = ({ children }) => {
     }
 
     return (
-        <FeedContext.Provider value={{posts, post}}>
-            {{ children }}
+        <FeedContext.Provider value={{posts, post, fetchHomeFeed, fetchProfileFeed}}>
+            { children }
         </FeedContext.Provider>
     );
 }
