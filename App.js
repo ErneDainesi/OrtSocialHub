@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
+    // TODO: change this when we have a login correctly implemented
     const currentUserId = AsyncStorage.getItem('currentUserId');
     return (
         <Stack.Navigator
