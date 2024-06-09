@@ -39,7 +39,6 @@ export const FeedProvider = ({ children }) => {
             });
             const result = await response.json();
             if (result.success) {
-                console.log(result);
                 const {post, user} = result;
                 setPosts(prevPosts => [...prevPosts, {post, user}]);
                 alert("New post added");
