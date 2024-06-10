@@ -1,18 +1,25 @@
-import { View, Text, Button } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import Composer from "../components/Composer";
+import Feed from "../components/Feed";
 
 const Home = ({ navigation }) => {
-    const goToRegister = () => {
-        navigation.navigate("Register");
-    }
     return (
-        <View>
-            <Text>Home</Text>
-            <Button
-                onPress={goToRegister}
-                title="goToRegister"
-            ></Button>
+        <View style={styles.flex}>
+            <Composer></Composer>
+            <Feed style={styles.feed}></Feed>
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    flex: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    feed: {
+        marginTop: '2rem'
+    }
+});
 
 export default Home;
