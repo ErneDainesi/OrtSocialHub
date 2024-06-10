@@ -1,9 +1,10 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext } from "react";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const register = async (payload) => {
+    const register = async (payload, navigate) => {
         try {
             const response = await fetch(process.env.DEV_URL + '/register', {
                 method: "POST",
@@ -14,12 +15,13 @@ export const AuthProvider = ({ children }) => {
             });
             const result = await response.json();
             if (result.success) {
-                navigation.navigate("Home");
+                await AsyncStorage.setItem('currentUserId', result.user.id);
+                navigate("Home");
             } else {
-                navigation.navigate("Error");
+                navigate("Error");
             }
         } catch (error) {
-            navigation.navigate("Error");
+            navigate("Error");
         }
     }
 
