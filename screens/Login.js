@@ -7,6 +7,7 @@ const Login = ({ navigation }) => {
     
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState(''); 
+    const { login } = useContext(AuthContext);
 
     const goToHome=()=>{
         navigation.navigate("Home"); 
