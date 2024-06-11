@@ -4,9 +4,9 @@ import { AuthContext } from "../context/AuthContext";
 
 const Login = ({ navigation }) => {
     
-    //Deberia tener un userName O Concatenar name+lastName?
-    const [firstName, setFirstName] = useState(''); //admin@admin.com'
-    const [password, setPassword] = useState(''); //admin
+    
+    const [email, setEmail] = useState(''); 
+    const [password, setPassword] = useState(''); 
 
     const goToHome=()=>{
         navigation.navigate("Home"); 
@@ -16,12 +16,12 @@ const Login = ({ navigation }) => {
         navigation.navigate("Register");
     }
     
-    const handleSubmit= ()=>{
+    const handleSubmit= ()=>{ //cambiarlo cuando este el contexto terminado
         if(email === 'admin@admin.com' && password === 'admin'){
             alert('Login succes')
             goToHome(); 
         } else {
-            alert('Error') //importar Erros.js?
+            alert('Error') 
         }
     }
     
@@ -33,9 +33,9 @@ const Login = ({ navigation }) => {
           </View>  
           <View style={styles.form}>
             <TextInput style={styles.input}
-               placeholder="First Name"
-               value={firstName}
-               onChangeText={setFirstName}
+               placeholder="Email"
+               value={email}
+               onChangeText={setEmail}
             />
             <TextInput style={styles.input}
                secureTextEntry={secureText}
