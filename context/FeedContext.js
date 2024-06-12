@@ -29,13 +29,14 @@ export const FeedProvider = ({ children }) => {
 
     const post = async (text) => {
         try {
-            const currentUserId = await AsyncStorage.getItem('currentUserId');
-            const response = await fetch(process.env.DEV_URL + '/post', {
+            const currentUserId = await AsyncStorage.getItem('loggedInUserId');
+            const token = await AsyncStorage.getItem('jwt');
+            const response = await fetch(process.env.DEV_URL + '/posts', {
                 method: 'POST',
                 headers: {
-                    'Content-type': 'application/json'
+                    'Content-type': 'application/json',
                 },
-                body: JSON.stringify({UserId: currentUserId, text})
+                body: JSON.stringify({UserId: currentUserId, text, token})
             });
             const result = await response.json();
             if (result.success) {
@@ -43,7 +44,7 @@ export const FeedProvider = ({ children }) => {
                 setPosts(prevPosts => [...prevPosts, {post, user}]);
                 alert("New post added");
             } else {
-                console.log(result.error);
+                console.log("falle aqui", result);
                 alert("Error posting");
             }
         } catch (error) {

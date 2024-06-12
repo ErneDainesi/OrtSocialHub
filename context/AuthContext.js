@@ -1,12 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import { createContext } from "react";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const register = async (payload, navigate) => {
+    const navigation = useNavigation();
+
+    const register = async (payload) => {
         try {
-            const response = await fetch(process.env.DEV_URL + '/register', {
+            const response = await fetch(process.env.DEV_URL + '/user/register', {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json'
@@ -15,19 +18,18 @@ export const AuthProvider = ({ children }) => {
             });
             const result = await response.json();
             if (result.success) {
-                await AsyncStorage.setItem('currentUserId', result.user.id);
-                navigate("Home");
+                navigation.navigate("Login");
             } else {
-                navigate("Error");
+                navigation.navigate("Error");
             }
         } catch (error) {
-            navigate("Error");
+            navigation.navigate("Error");
         }
     }
 
-    const login = async (payload, navigate) => { //Modificar esto con el back para login
+    const login = async (payload) => {
         try {
-            const response = await fetch(process.env.DEV_URL + '/login', {
+            const response = await fetch(process.env.DEV_URL + '/user/login', {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json'
@@ -36,13 +38,12 @@ export const AuthProvider = ({ children }) => {
             });
             const result = await response.json();
             if (result.success) {
-                await AsyncStorage.setItem('currentUserId', result.user.id);
-                navigate("Home");
-            } else {
-                navigate("Error");
+                await AsyncStorage.setItem('loggedInUserId', result.loggedInUserId);
+                await AsyncStorage.setItem('jwt', result.jwt);
+                navigation.navigate("Home");
             }
         } catch (error) {
-            navigate("Error");
+            navigation.navigate("Error");
         }
     }
 
