@@ -15,12 +15,15 @@ const AppNavigator = () => {
     const currentUserId = AsyncStorage.getItem('currentUserId');
     return (
         <Stack.Navigator
-            initialRouteName = {currentUserId ? "Home" : "Register"}
+            //initialRouteName = {currentUserId ? "Home" : "Register"}
+            initialRouteName="Home"
         >
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Error" component={Error} />
+           
+
         </Stack.Navigator>
     );
 }
