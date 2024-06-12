@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (payload, navigate) => { //Modificar esto con el back para login
         try {
-            const response = await fetch(process.env.DEV_URL + '/register', {
+            const response = await fetch(process.env.DEV_URL + '/login', {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json'

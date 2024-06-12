@@ -17,13 +17,8 @@ const Login = ({ navigation }) => {
         navigation.navigate("Register");
     }
     
-    const handleSubmit= ()=>{ //cambiarlo cuando este el contexto terminado
-        if(email === 'admin@admin.com' && password === 'admin'){
-            alert('Login succes')
-            goToHome(); 
-        } else {
-            alert('Error') 
-        }
+    const handleSubmit= ()=>{ 
+        login({email, password}, navigation.navigate)
     }
     
     return (
