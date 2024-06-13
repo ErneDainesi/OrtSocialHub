@@ -34,12 +34,12 @@ export const AuthProvider = ({ children }) => {
                 headers: {
                     'Content-type': 'application/json'
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
+                credentials: 'include'
             });
             const result = await response.json();
             if (result.success) {
                 await AsyncStorage.setItem('loggedInUserId', result.loggedInUserId);
-                await AsyncStorage.setItem('jwt', result.jwt);
                 navigation.navigate("Home");
             }
         } catch (error) {

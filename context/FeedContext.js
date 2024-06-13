@@ -8,8 +8,11 @@ export const FeedProvider = ({ children }) => {
 
     const fetchHomeFeed = async () => {
         try {
-            const currentUserId = await AsyncStorage.getItem('currentUserId');
-            const response = await fetch(process.env.DEV_URL + `/post/home/${currentUserId}`);
+            const currentUserId = await AsyncStorage.getItem('loggedInUserId');
+            const response = await fetch(process.env.DEV_URL + `/posts/home/${currentUserId}`, {
+                method: 'GET',
+                credentials: 'include'
+            });
             const data = await response.json();
             setPosts(data);
         } catch (error) {
@@ -19,7 +22,10 @@ export const FeedProvider = ({ children }) => {
 
     const fetchProfileFeed = async (userId) => {
         try {
-            const response = await fetch(process.env.DEV_URL + `/post/profile/${userId}`);
+            const response = await fetch(process.env.DEV_URL + `/post/profile/${userId}`, {
+                method: 'GET',
+                credentials: 'include'
+            });
             const data = await response.json();
             setPosts(data);
         } catch (error) {
@@ -30,13 +36,13 @@ export const FeedProvider = ({ children }) => {
     const post = async (text) => {
         try {
             const currentUserId = await AsyncStorage.getItem('loggedInUserId');
-            const token = await AsyncStorage.getItem('jwt');
             const response = await fetch(process.env.DEV_URL + '/posts', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
                 },
-                body: JSON.stringify({UserId: currentUserId, text, token})
+                body: JSON.stringify({UserId: currentUserId, text}),
+                credentials: 'include'
             });
             const result = await response.json();
             if (result.success) {
