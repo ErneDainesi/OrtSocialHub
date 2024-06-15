@@ -9,8 +9,8 @@ const Feed = () => {
         <View style={styles.feed}>
             <FlatList
                 data={posts}
-                renderItem={data => <Post post={data.item.post} user={data.item.user} />}
-                keyExtractor={data => data.post.id}
+                renderItem={data => <Post data={data.item} />}
+                keyExtractor={data => {console.log("ESTO ES DATA", data); return data.post.id;}}
             >
             </FlatList>
         </View>

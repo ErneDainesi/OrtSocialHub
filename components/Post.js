@@ -1,8 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-const Post = ({post, user}) => {
+const Post = ({data}) => {
     const navigation = useNavigation();
+    const {post, user} = data;
     const formatDate = (timestamp) => {
         const date = new Date(timestamp);
         const day = String(date.getUTCDate()).padStart(2, '0');
