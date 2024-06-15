@@ -1,6 +1,8 @@
+import { useNavigation } from "@react-navigation/native";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-const Post = ({post, user, navigation}) => {
+const Post = ({post, user}) => {
+    const navigation = useNavigation();
     const formatDate = (timestamp) => {
         const date = new Date(timestamp);
         const day = String(date.getUTCDate()).padStart(2, '0');
@@ -13,7 +15,8 @@ const Post = ({post, user, navigation}) => {
 
     const goToProfile = () => {
         // TODO: change Home for users profile
-        navigation.navigate("Home");
+        // navigation.navigate("Profile", {userId: user.id});
+        navigation.navigate("Home")
     }
     return (
         <View style={styles.post}>
