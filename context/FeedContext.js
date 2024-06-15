@@ -22,7 +22,7 @@ export const FeedProvider = ({ children }) => {
 
     const fetchProfileFeed = async (userId) => {
         try {
-            const response = await fetch(process.env.DEV_URL + `/post/profile/${userId}`, {
+            const response = await fetch(process.env.DEV_URL + `/posts/profile/${userId}`, {
                 method: 'GET',
                 credentials: 'include'
             });
