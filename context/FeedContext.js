@@ -27,7 +27,7 @@ export const FeedProvider = ({ children }) => {
                 credentials: 'include'
             });
             const data = await response.json();
-            setPosts(data);
+            setPosts(data.posts);
         } catch (error) {
             console.error('Error en el fetch de productos: ', error);
         }
@@ -46,7 +46,9 @@ export const FeedProvider = ({ children }) => {
             });
             const result = await response.json();
             if (result.success) {
-                setPosts(prevPosts => [...prevPosts, result.data]);
+                setPosts(prevPosts => {
+                    return prevPosts.length ? [result.data, ...prevPosts] : [result.data]
+                });
             } else {
                 console.log("falle aqui", result);
                 alert("Error posting");
