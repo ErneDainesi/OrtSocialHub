@@ -1,11 +1,12 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const navigation = useNavigation();
+    const [profile, setProfile] = useState(null);
 
     const register = async (payload) => {
         try {
@@ -47,8 +48,23 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const fetchUserProfile = async (userId) => {
+        try {
+            const response = await fetch(process.env.DEV_URL + `/user/profile/${userId}`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+            const result = await response.json();
+            if (result.success) {
+                setProfile(result.user);
+            }
+        } catch (error) {
+            navigation.navigate("Error");
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{register, login}}> 
+        <AuthContext.Provider value={{register, login, profile, fetchUserProfile}}> 
             { children }
         </AuthContext.Provider>
     );

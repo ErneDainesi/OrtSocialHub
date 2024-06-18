@@ -1,17 +1,18 @@
 import { useContext, useState } from "react";
 import { Button, Pressable, StyleSheet, TextInput, View, Image } from "react-native";
 import { FeedContext } from "../context/FeedContext";
+import { useNavigation } from "@react-navigation/native";
 
-const Composer = ({ navigation }) => {
+const Composer = ({ userId }) => {
     const [text, setText] = useState("");
     const {post} = useContext(FeedContext);
+    const navigation = useNavigation();
     const handlePost = () => {
         post(text);
         setText('');
     }
     const goToProfile = () => {
-        // TODO: change Home for users profile
-        navigation.navigate("Home");
+        navigation.navigate("Profile", {userId});
     }
     return (
         <View style={styles.container}>
