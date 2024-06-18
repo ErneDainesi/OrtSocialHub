@@ -3,10 +3,9 @@ import Composer from "../components/Composer";
 import Feed from "../components/Feed";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Home = ({ navigation, route }) => {
-    console.log(route.params);
+const Home = ({ navigation }) => {
     const isSessionActive = async () => {
-        const isAuthenticated = await AsyncStorage.getItem('jwt');
+        const isAuthenticated = await AsyncStorage.getItem('loggedInUserId');
         if (!isAuthenticated) {
             navigation.navigate("Login");
         }
