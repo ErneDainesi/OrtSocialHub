@@ -1,17 +1,12 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Composer from "../components/Composer";
 import Feed from "../components/Feed";
-import { BottomNavBar } from "../components/BottomNavBar";
-// import {NavBar} from "../components/NavBar"
-
 
 const Home = ({ navigation }) => {
     return (
         <View style={styles.flex}>
             <Composer></Composer>
             <Feed style={styles.feed}></Feed>
-            <BottomNavBar></BottomNavBar>
-            
         </View>
     );
 };

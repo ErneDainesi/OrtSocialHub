@@ -7,6 +7,8 @@ import Login from './screens/Login';
 import { AuthProvider } from './context/AuthContext';
 import { FeedProvider } from './context/FeedContext'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BottomNavBar from './components/BottomNavBar';
+import BottomBar from './components/BottomNavBar';
 
 const Stack = createStackNavigator();
 
@@ -22,8 +24,6 @@ const AppNavigator = () => {
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Error" component={Error} />
-           
-
         </Stack.Navigator>
     );
 }
@@ -33,7 +33,7 @@ export default function App() {
         <AuthProvider>
             <FeedProvider>
                 <NavigationContainer>
-                    <AppNavigator />
+                    <BottomNavBar />
                 </NavigationContainer>
             </FeedProvider>
         </AuthProvider>
