@@ -16,11 +16,11 @@ const Register = ({ navigation }) => {
     }
 
     const handleSubmit = () => {
-        if (password.length < 12) {
-            setPasswordError(true);
-        } else {
-            register({firstName, lastName, email, password}, navigation.navigate)
-        }
+        // if (password.length < 12) {
+        //     setPasswordError(true);
+        // } else {
+        // }
+        register({firstName, lastName, email, password})
     }
 
     return (
