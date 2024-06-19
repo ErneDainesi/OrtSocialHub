@@ -10,9 +10,10 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (payload) => {
         try {
-            const response = await fetch(process.env.DEV_URL + '/user/register', {
+            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + '/user/register', {
                 method: "POST",
                 headers: {
+                    'Accept': 'application/json',
                     'Content-type': 'application/json'
                 },
                 body: JSON.stringify(payload)
@@ -30,10 +31,11 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (payload) => {
         try {
-            const response = await fetch(process.env.DEV_URL + '/user/login', {
+            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + '/user/login', {
                 method: "POST",
                 headers: {
-                    'Content-type': 'application/json'
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
                 },
                 body: JSON.stringify(payload),
                 credentials: 'include'
@@ -50,7 +52,7 @@ export const AuthProvider = ({ children }) => {
 
     const fetchUserProfile = async (userId) => {
         try {
-            const response = await fetch(process.env.DEV_URL + `/user/profile/${userId}`, {
+            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + `/user/profile/${userId}`, {
                 method: 'GET',
                 credentials: 'include'
             });
