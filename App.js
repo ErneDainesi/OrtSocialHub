@@ -4,8 +4,11 @@ import Register from './screens/Register';
 import Home from './screens/Home';
 import Error from './screens/Error';
 import Login from './screens/Login';
+import NewsFeed from './screens/NewsFeed';
 import { AuthProvider } from './context/AuthContext';
 import { FeedProvider } from './context/FeedContext'
+import { PostProvider } from './context/PostContext';
+
 
 const Stack = createStackNavigator();
 
@@ -16,6 +19,7 @@ const AppNavigator = () => {
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Error" component={Error} />
+            <Stack.Screen name="NewsFeed" component={NewsFeed} />  {/*falta el postProvider*/}
         </Stack.Navigator>
     );
 }
