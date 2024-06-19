@@ -1,5 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useState } from "react";
+import { Platform } from "react-native";
+import { v4 } from "uuid";
+import { storage } from "../utils/firebase";
+import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 
 export const FeedContext = createContext();
 
@@ -33,15 +37,29 @@ export const FeedProvider = ({ children }) => {
         }
     }
 
-    const post = async (text) => {
+    const uploadFile = async (uri) => {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        const filename = v4(); // generate a random name for the file to avoid repetition
+        const reference = ref(storage, filename);
+        await uploadBytes(reference, blob);
+        const url = await getDownloadURL(reference);
+        return url;
+    }
+
+    const post = async (text, attachmentUri) => {
         try {
             const currentUserId = await AsyncStorage.getItem('loggedInUserId');
+            let attachmentUrl = '';
+            if (attachmentUri) {
+                attachmentUrl = await uploadFile(attachmentUri);
+            }
             const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + '/posts', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
                 },
-                body: JSON.stringify({UserId: currentUserId, text}),
+                body: JSON.stringify({UserId: currentUserId, text, attachmentUrl}),
                 credentials: 'include'
             });
             const result = await response.json();

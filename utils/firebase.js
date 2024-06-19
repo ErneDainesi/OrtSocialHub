@@ -1,17 +1,22 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getStorage } from "firebase/storage";
+import {
+    APP_ID,
+    AUTH_DOMAIN,
+    FB_API_KEY,
+    MESSAGING_SENDER_ID,
+    PROJECT_ID,
+    STORAGE_BUCKET
+} from "../config";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.EXPO_PUBLIC_FB_API_KEY,
-  authDomain: "ortsocialhub.firebaseapp.com",
-  projectId: "ortsocialhub",
-  storageBucket: "ortsocialhub.appspot.com",
-  messagingSenderId: "719174565863",
-  appId: "1:719174565863:web:673cdf0a7bd01b667e0742"
+    apiKey: FB_API_KEY,
+    authDomain: AUTH_DOMAIN,
+    projectId: PROJECT_ID,
+    storageBucket: STORAGE_BUCKET,
+    messagingSenderId: MESSAGING_SENDER_ID,
+    appId: APP_ID
 };
 
-// Initialize Firebase
-export const firebase = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+export const storage = getStorage(app);

@@ -2,17 +2,26 @@ import { useContext, useState } from "react";
 import { Button, Pressable, StyleSheet, TextInput, View, Image } from "react-native";
 import { FeedContext } from "../context/FeedContext";
 import { useNavigation } from "@react-navigation/native";
+import { launchImageLibrary } from "react-native-image-picker";
 
 const Composer = ({ userId }) => {
     const [text, setText] = useState("");
-    const {post} = useContext(FeedContext);
+    const [attachment, setAttachment] = useState("");
+    const { post } = useContext(FeedContext);
     const navigation = useNavigation();
     const handlePost = () => {
-        post(text);
+        post(text, attachment);
         setText('');
+        setAttachment('');
     }
     const goToProfile = () => {
         navigation.navigate("Profile", {userId});
+    }
+    const selectImage = async () => {
+        const result = await launchImageLibrary();
+        if (!result.didCancel && result.assets && result.assets.length) {
+            setAttachment(result.assets[0].uri)
+        }
     }
     return (
         <View style={styles.container}>
@@ -41,7 +50,7 @@ const Composer = ({ userId }) => {
                         ></TextInput>
                     </View>
                     <View style={styles.toolbar}>
-                        <Button title="Attach" style={styles.attachButton}></Button>
+                        <Button title="Attach" style={styles.attachButton} onPress={selectImage}></Button>
                         <Button
                             title="Post" style={styles.postButton}
                             onPress={handlePost}
