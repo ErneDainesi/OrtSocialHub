@@ -18,7 +18,6 @@ const Profile = ({ route }) => {
     }, [userId]);
     return (
         <View>
-            <Image />
             {profile && (<>
                 <View>
                     <Text>{`${profile.firstName} ${profile.lastName}`}</Text>
