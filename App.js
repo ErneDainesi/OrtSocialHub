@@ -4,11 +4,22 @@ import Register from './screens/Register';
 import Home from './screens/Home';
 import Error from './screens/Error';
 import Login from './screens/Login';
-import { AuthProvider } from './context/AuthContext';
+import { AuthContext, AuthProvider } from './context/AuthContext';
 import { FeedProvider } from './context/FeedContext'
 import Profile from './screens/Profile';
+import { useContext } from 'react';
 
 const Stack = createStackNavigator();
+
+const AuthNavigator = () => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
+            <Stack.Screen name="Register" component={Register} options={{headerShown: false}} />
+            <Stack.Screen name="Error" component={Error} />
+        </Stack.Navigator>
+    );
+}
 
 const AppNavigator = () => {
     return (
@@ -22,13 +33,20 @@ const AppNavigator = () => {
     );
 }
 
+const Root = () => {
+    const { isLoggedIn } = useContext(AuthContext);
+    return (
+        <FeedProvider>
+            {isLoggedIn ? <AppNavigator /> : <AuthNavigator />}
+        </FeedProvider>
+    );
+}
+
 export default function App() {
     return (
         <NavigationContainer>
             <AuthProvider>
-                <FeedProvider>
-                    <AppNavigator />
-                </FeedProvider>
+                <Root />
             </AuthProvider>
         </NavigationContainer>
     );
