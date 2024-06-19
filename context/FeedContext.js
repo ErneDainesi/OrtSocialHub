@@ -4,6 +4,7 @@ import { Platform } from "react-native";
 import { v4 } from "uuid";
 import { storage } from "../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
+import { DEV_URL } from "../config";
 
 export const FeedContext = createContext();
 
@@ -13,7 +14,7 @@ export const FeedProvider = ({ children }) => {
     const fetchHomeFeed = async () => {
         try {
             const currentUserId = await AsyncStorage.getItem('loggedInUserId');
-            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + `/posts/home/${currentUserId}`, {
+            const response = await fetch(DEV_URL + `/posts/home/${currentUserId}`, {
                 method: 'GET',
                 credentials: 'include'
             });
@@ -26,7 +27,7 @@ export const FeedProvider = ({ children }) => {
 
     const fetchProfileFeed = async (userId) => {
         try {
-            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + `/posts/profile/${userId}`, {
+            const response = await fetch(DEV_URL + `/posts/profile/${userId}`, {
                 method: 'GET',
                 credentials: 'include'
             });
@@ -54,7 +55,7 @@ export const FeedProvider = ({ children }) => {
             if (attachmentUri) {
                 attachmentUrl = await uploadFile(attachmentUri);
             }
-            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + '/posts', {
+            const response = await fetch(DEV_URL + '/posts', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',

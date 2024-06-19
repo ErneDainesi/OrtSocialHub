@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { createContext, useEffect, useState } from "react";
+import { DEV_URL } from "../config";
 
 export const AuthContext = createContext();
 
@@ -23,7 +24,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (payload) => {
         try {
-            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + '/user/register', {
+            const response = await fetch(DEV_URL + '/user/register', {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -44,7 +45,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (payload) => {
         try {
-            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + '/user/login', {
+            const response = await fetch(DEV_URL + '/user/login', {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -69,7 +70,7 @@ export const AuthProvider = ({ children }) => {
 
     const fetchUserProfile = async (userId) => {
         try {
-            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + `/user/profile/${userId}`, {
+            const response = await fetch(DEV_URL + `/user/profile/${userId}`, {
                 method: 'GET',
                 credentials: 'include'
             });
