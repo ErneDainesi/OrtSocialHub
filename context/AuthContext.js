@@ -1,17 +1,32 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { createContext } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const navigation = useNavigation();
+    const [profile, setProfile] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [loggedInUserId, setLoggedInUserId] = useState(null);
+
+    useEffect(() => {
+        const checkAuthStatus = async () => {
+            const userId = await AsyncStorage.getItem('loggedInUserId');
+            if (userId) {
+                setIsLoggedIn(true);
+                setLoggedInUserId(userId);
+            }
+        };
+        checkAuthStatus();
+    }, []);
 
     const register = async (payload) => {
         try {
-            const response = await fetch(process.env.DEV_URL + '/user/register', {
+            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + '/user/register', {
                 method: "POST",
                 headers: {
+                    'Accept': 'application/json',
                     'Content-type': 'application/json'
                 },
                 body: JSON.stringify(payload)
@@ -29,17 +44,21 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (payload) => {
         try {
-            const response = await fetch(process.env.DEV_URL + '/user/login', {
+            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + '/user/login', {
                 method: "POST",
                 headers: {
-                    'Content-type': 'application/json'
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
                 },
                 body: JSON.stringify(payload),
                 credentials: 'include'
             });
             const result = await response.json();
             if (result.success) {
-                await AsyncStorage.setItem('loggedInUserId', result.loggedInUserId);
+                const id = result.loggedInUserId;
+                await AsyncStorage.setItem('loggedInUserId', id);
+                setIsLoggedIn(true);
+                setLoggedInUserId(id);
                 navigation.navigate("Home");
             }
         } catch (error) {
@@ -47,8 +66,35 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+
+    const fetchUserProfile = async (userId) => {
+        try {
+            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + `/user/profile/${userId}`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+            const result = await response.json();
+            if (result.success) {
+                setProfile(result.user);
+            }
+        } catch (error) {
+            navigation.navigate("Error");
+        }
+    }
+
+    const values = {
+        register,
+        login,
+        profile,
+        fetchUserProfile,
+        isLoggedIn,
+        setIsLoggedIn,
+        loggedInUserId,
+        setLoggedInUserId
+    };
+
     return (
-        <AuthContext.Provider value={{register, login}}> 
+        <AuthContext.Provider value={values}>
             { children }
         </AuthContext.Provider>
     );

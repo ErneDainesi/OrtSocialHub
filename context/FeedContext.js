@@ -9,7 +9,7 @@ export const FeedProvider = ({ children }) => {
     const fetchHomeFeed = async () => {
         try {
             const currentUserId = await AsyncStorage.getItem('loggedInUserId');
-            const response = await fetch(process.env.DEV_URL + `/posts/home/${currentUserId}`, {
+            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + `/posts/home/${currentUserId}`, {
                 method: 'GET',
                 credentials: 'include'
             });
@@ -22,7 +22,7 @@ export const FeedProvider = ({ children }) => {
 
     const fetchProfileFeed = async (userId) => {
         try {
-            const response = await fetch(process.env.DEV_URL + `/posts/profile/${userId}`, {
+            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + `/posts/profile/${userId}`, {
                 method: 'GET',
                 credentials: 'include'
             });
@@ -36,7 +36,7 @@ export const FeedProvider = ({ children }) => {
     const post = async (text) => {
         try {
             const currentUserId = await AsyncStorage.getItem('loggedInUserId');
-            const response = await fetch(process.env.DEV_URL + '/posts', {
+            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + '/posts', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
