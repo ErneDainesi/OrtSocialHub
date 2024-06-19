@@ -55,23 +55,25 @@ const Composer = ({ userId }) => {
 
 const styles = StyleSheet.create({
     container: {
-        minWidth: '390px'
+        minWidth: 390,
+        marginTop: 24,
+        paddingVertical: 22
     },
     containerInner: {
-        padding: '1rem',
-        borderRadius: '16px',
+        padding: 12,
+        borderRadius: 16,
         display: 'flex',
         alignItems: 'flex-start',
         flexDirection: 'row',
         backgroundColor: '#FFFFFF'
     },
     profileImgLink: {
-        marginRight: '1rem'
+        marginRight: 12
     },
     profileImgContainer: {
-        borderRadius: '100%',
-        height: '50px',
-        width: '50px',
+        borderRadius: 25,
+        height: 50,
+        width: 50,
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
@@ -88,11 +90,11 @@ const styles = StyleSheet.create({
     },
     input: {
         width: '100%',
-        padding: '1rem',
-        maxHeight: '600px',
-        borderWidth: '1px',
+        padding: 12,
+        maxHeight: 600,
+        borderWidth: 1,
         borderColor: 'rgb(207, 217, 222)',
-        borderRadius: '6px',
+        borderRadius: 6,
         display: 'flex',
         flexDirection: 'row'
     },
@@ -106,18 +108,18 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'flex-end',
         columnGap: '.5rem',
-        marginTop: '1rem'
+        marginTop: 12
     },
     attachButton: {},
     postButton: {
-        borderRadius: '100%',
-        height: '23px',
-        width: '23px',
+        borderRadius: 23 / 2,
+        height: 23,
+        width: 23,
         display: 'flex',
         justifyContent: 'center',
         borderColor: 'rgb(207, 217, 222)',
         borderStyle: 'solid',
-        borderWidth: '1px'
+        borderWidth: 1
     }
 });
 
