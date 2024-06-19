@@ -42,6 +42,7 @@ const Post = ({data}) => {
                         <Text style={styles.timestamp}>{formatDate(post.createdAt)}</Text>
                     </View>
                     <Text style={styles.contentText}>{post.text}</Text>
+                    {post.attachmentUrl && <Image source={{uri: post.attachmentUrl}} style={styles.attachment}/>}
                 </View>
             </View>
         </View>
@@ -50,24 +51,24 @@ const Post = ({data}) => {
 
 const styles = StyleSheet.create({
     post: {
-        minWidth: '390px',
-        marginBottom: '.5rem'
+        minWidth: 390,
+        marginBottom: 6
     },
     postInner: {
-        padding: '1rem',
-        borderRadius: '16px',
+        padding: 12,
+        borderRadius: 16,
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
-        maxWidth: '580px'
+        maxWidth: 580
     },
     profileImgLink: {
-        marginRight: '1rem'
+        marginRight: 12
     },
     postCreatorContainer: {
         borderRadius: '100%',
-        height: '50px',
-        width: '50px',
+        height: 50,
+        width: 50,
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
@@ -83,19 +84,24 @@ const styles = StyleSheet.create({
         flexGrow: '1'
     },
     contentHeader: {
-        marginBottom: '1rem'
+        marginBottom: 12
     },
     contentText: {
         width: '100%',
-        maxWidth: '470px'
+        maxWidth: 470,
+        marginBottom: 12
     },
     creator: {
-        fontSize: '18px',
+        fontSize: 18,
         fontWeight: '800'
     },
     timestamp: {
         fontStyle: 'italic',
         color: '#b3b6ba'
+    },
+    attachment: {
+        width: '100%',
+        height: 300
     }
 });
 
