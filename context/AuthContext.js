@@ -1,6 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { createContext, useEffect, useState } from "react";
+import { DEV_URL } from "../config";
+import { v4 } from "uuid";
+import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
+import { storage } from "../utils/firebase";
 
 export const AuthContext = createContext();
 
@@ -21,30 +25,47 @@ export const AuthProvider = ({ children }) => {
         checkAuthStatus();
     }, []);
 
+
+    const uploadFile = async (uri) => {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        const filename = v4(); // generate a random name for the file to avoid repetition
+        const reference = ref(storage, filename);
+        await uploadBytes(reference, blob);
+        const url = await getDownloadURL(reference);
+        return url;
+    }
+
     const register = async (payload) => {
         try {
-            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + '/user/register', {
+            let downloadUrl = "";
+            if (payload.profilePicture) {
+                downloadUrl = await uploadFile(payload.profilePicture);
+            }
+            const response = await fetch(DEV_URL + '/user/register', {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
                     'Content-type': 'application/json'
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({...payload, profilePicture: downloadUrl})
             });
             const result = await response.json();
             if (result.success) {
                 navigation.navigate("Login");
             } else {
+                console.log(result);
                 navigation.navigate("Error");
             }
         } catch (error) {
+            console.log(error);
             navigation.navigate("Error");
         }
     }
 
     const login = async (payload) => {
         try {
-            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + '/user/login', {
+            const response = await fetch(DEV_URL + '/user/login', {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -69,7 +90,7 @@ export const AuthProvider = ({ children }) => {
 
     const fetchUserProfile = async (userId) => {
         try {
-            const response = await fetch(process.env.EXPO_PUBLIC_DEV_URL + `/user/profile/${userId}`, {
+            const response = await fetch(DEV_URL + `/user/profile/${userId}`, {
                 method: 'GET',
                 credentials: 'include'
             });

@@ -1,19 +1,35 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Pressable, StyleSheet, TextInput, View, Image } from "react-native";
 import { FeedContext } from "../context/FeedContext";
 import { useNavigation } from "@react-navigation/native";
+import { launchImageLibrary } from "react-native-image-picker";
+import { AuthContext } from "../context/AuthContext";
 
 const Composer = ({ userId }) => {
     const [text, setText] = useState("");
-    const {post} = useContext(FeedContext);
+    const [attachment, setAttachment] = useState("");
+    const { post } = useContext(FeedContext);
+    const { profile, fetchUserProfile } = useContext(AuthContext);
     const navigation = useNavigation();
     const handlePost = () => {
-        post(text);
+        post(text, attachment);
         setText('');
+        setAttachment('');
     }
     const goToProfile = () => {
         navigation.navigate("Profile", {userId});
     }
+    const selectImage = async () => {
+        const result = await launchImageLibrary();
+        if (!result.didCancel && result.assets && result.assets.length) {
+            setAttachment(result.assets[0].uri)
+        }
+    }
+    useEffect(() => {
+        if (userId) {
+            fetchUserProfile(userId);
+        }
+    }, [userId]);
     return (
         <View style={styles.container}>
             <View style={styles.containerInner}>
@@ -22,13 +38,19 @@ const Composer = ({ userId }) => {
                     onPress={goToProfile}
                 >
                     <View style={styles.profileImgContainer}>
-                        <Image 
-                            // TODO: change this for current users profile picture
-                            source={{
-                                uri: "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg",
-                            }}
-                            style={styles.profileImg}
-                        />
+                        {
+                            profile ?
+                                <Image
+                                    source={{ uri: profile.profilePicture }}
+                                    style={styles.profileImg}
+                                /> :
+                                <Image
+                                    source={{
+                                        uri: "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg",
+                                    }}
+                                    style={styles.profileImg}
+                                />
+                        }
                     </View>
                 </Pressable>
                 <View style={styles.editor}>
@@ -41,7 +63,7 @@ const Composer = ({ userId }) => {
                         ></TextInput>
                     </View>
                     <View style={styles.toolbar}>
-                        <Button title="Attach" style={styles.attachButton}></Button>
+                        <Button title="Attach" style={styles.attachButton} onPress={selectImage}></Button>
                         <Button
                             title="Post" style={styles.postButton}
                             onPress={handlePost}
