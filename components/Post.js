@@ -15,9 +15,7 @@ const Post = ({data}) => {
     }
 
     const goToProfile = () => {
-        // TODO: change Home for users profile
-        // navigation.navigate("Profile", {userId: user.id});
-        navigation.navigate("Home")
+        navigation.navigate("Profile", {userId: user.id});
     }
     return (
         <View style={styles.post}>
