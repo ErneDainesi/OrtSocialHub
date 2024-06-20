@@ -12,7 +12,7 @@ const ProfileHeader = ({ user, setEditingProfile }) => {
 			/>
 
 			<Text>
-				`${user.name} ${user.lastNamer}`
+				`${user.name} ${user.lastName}`
 			</Text>
 
 			<Button

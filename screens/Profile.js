@@ -3,50 +3,33 @@ import React, { useContext, useState } from "react";
 import ProfileHeader from "../components/ProfileHeader";
 import ProfileEdit from "../components/ProfileEdit";
 import { FeedContext } from "../context/FeedContext";
-import ProfilePost from "../components/ProfilePost";
+import Post from "../components/Post";
+import Feed from "../components/Feed";
+import { AuthContext } from "../context/AuthContext";
 
-const Profile = () => {
-	const [user, setUser] = useState({});
-	//const { fetchProfileFeed, posts } = useContext(FeedContext);
+const Profile = ({ route }) => {
+	const [user, setUser] = useState({ name: "juan", lastname: "abutti" });
 	const [editingProfile, setEditingProfile] = useState(false);
-	const posts = [
-		{
-			image:
-				"https://media.admagazine.com/photos/637d11a6e63c8afac40e7a01/1:1/w_2896,h_2896,c_limit/1442809583",
-			text: "Hola soy nuevo en esta Red Social",
-		},
-		{
-			image:
-				"https://media.admagazine.com/photos/637d11a6e63c8afac40e7a01/1:1/w_2896,h_2896,c_limit/1442809583",
-			text: "Hola soy nuevo en esta Red Social",
-		},
-		{
-			image:
-				"https://media.admagazine.com/photos/637d11a6e63c8afac40e7a01/1:1/w_2896,h_2896,c_limit/1442809583",
-			text: "Hola soy nuevo en esta Red Social",
-		},
-	];
+	//const [ownProfile, setOwnProfile] = useState(false);
+	// const { profile, fetchUserProfile } = useContext(AuthContext);
+	// const { userId } = route.params;
+	// const isOwnProfile = async () => {
+	// 	const loggedInUserId = await AsyncStorage.getItem("loggedInUserId");
+	// 	setOwnProfile(loggedInUserId === userId);
+	// };
+	// isOwnProfile();
+	// useEffect(() => {
+	// 	fetchUserProfile(userId);
+	// }, [userId]);
 
-	const getUserLogged = () => {};
-
-	//setUser({ name: "Pepe", lastName: "Coketch" });
+	//if (!profile) return;
 
 	return editingProfile ? (
 		<ProfileEdit setEditingProfile={setEditingProfile} />
 	) : (
 		<View>
 			<ProfileHeader user={user} setEditingProfile={setEditingProfile} />
-			{posts.map((p) => {
-				return (
-					<ProfilePost
-						userAvatar={
-							"https://cuv.upc.edu/ca/shared/imatges/fotos-professorat-i-professionals/anonimo.jpg"
-						}
-						textPost={p.text}
-						imagePost={p.image}
-					/>
-				);
-			})}
+			{/*<Feed id={profile.id} isProfile={true} />*/}
 		</View>
 	);
 };
