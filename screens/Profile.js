@@ -29,7 +29,7 @@ const Profile = ({ route }) => {
 	) : (
 		<View>
 			<ProfileHeader user={user} setEditingProfile={setEditingProfile} />
-			{/*<Feed id={profile.id} isProfile={true} />*/}
+			< Feed id={profile.id} isProfile={true} />
 		</View>
 	);
 };
