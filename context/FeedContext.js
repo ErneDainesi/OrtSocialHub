@@ -19,7 +19,7 @@ export const FeedProvider = ({ children }) => {
                 credentials: 'include'
             });
             const data = await response.json();
-            setPosts(data);
+            setPosts(data.posts);
         } catch (error) {
             console.error('Error while fetching home feed', error);
         }
@@ -66,7 +66,7 @@ export const FeedProvider = ({ children }) => {
             const result = await response.json();
             if (result.success) {
                 setPosts(prevPosts => {
-                    return prevPosts.length ? [result.data, ...prevPosts] : [result.data]
+                    return prevPosts.length ? [result.post, ...prevPosts] : [result.post]
                 });
             } else {
                 console.log("falle aqui", result);
