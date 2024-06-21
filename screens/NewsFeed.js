@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
-import { PostContext } from "../context/PostContext";
+import { NewsPostContext } from "../context/NewsPostContext";
 import Post from "../components/NewsPost";
 
 const NewsFeed= () => {
-    const {posts} = useContext(PostContext);
+    const {posts} = useContext(NewsPostContext);
 
     return(
         <View style= {styles.container}>

@@ -1,8 +1,8 @@
 import { createContext, useState, useEffect } from "react";
 
-export const PostContext = createContext();
+export const NewsPostContext = createContext();
 
-export const PostProvider = ({ children }) => {
+export const NewsPostProvider = ({ children }) => {
     const [posts, setPosts] = useState([]);
 
     useEffect(()=>{
@@ -29,8 +29,8 @@ export const PostProvider = ({ children }) => {
 
 
     return(
-        <PostContext.Provider value={{ posts}} >
+        <NewsPostContext.Provider value={{ posts}} >
             {children}
-        </PostContext.Provider>
+        </NewsPostContext.Provider>
     );
 };
