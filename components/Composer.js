@@ -1,18 +1,35 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Pressable, StyleSheet, TextInput, View, Image } from "react-native";
 import { FeedContext } from "../context/FeedContext";
+import { useNavigation } from "@react-navigation/native";
+import { launchImageLibrary } from "react-native-image-picker";
+import { AuthContext } from "../context/AuthContext";
 
-const Composer = ({ navigation }) => {
+const Composer = ({ userId }) => {
     const [text, setText] = useState("");
-    const {post} = useContext(FeedContext);
+    const [attachment, setAttachment] = useState("");
+    const { post } = useContext(FeedContext);
+    const { profile, fetchUserProfile } = useContext(AuthContext);
+    const navigation = useNavigation();
     const handlePost = () => {
-        post(text);
+        post(text, attachment);
         setText('');
+        setAttachment('');
     }
     const goToProfile = () => {
-        // TODO: change Home for users profile
-        navigation.navigate("Home");
+        navigation.navigate("Profile", {userId});
     }
+    const selectImage = async () => {
+        const result = await launchImageLibrary();
+        if (!result.didCancel && result.assets && result.assets.length) {
+            setAttachment(result.assets[0].uri)
+        }
+    }
+    useEffect(() => {
+        if (userId) {
+            fetchUserProfile(userId);
+        }
+    }, [userId]);
     return (
         <View style={styles.container}>
             <View style={styles.containerInner}>
@@ -21,13 +38,19 @@ const Composer = ({ navigation }) => {
                     onPress={goToProfile}
                 >
                     <View style={styles.profileImgContainer}>
-                        <Image 
-                            // TODO: change this for current users profile picture
-                            source={{
-                                uri: "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg",
-                            }}
-                            style={styles.profileImg}
-                        />
+                        {
+                            profile ?
+                                <Image
+                                    source={{ uri: profile.profilePicture }}
+                                    style={styles.profileImg}
+                                /> :
+                                <Image
+                                    source={{
+                                        uri: "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg",
+                                    }}
+                                    style={styles.profileImg}
+                                />
+                        }
                     </View>
                 </Pressable>
                 <View style={styles.editor}>
@@ -40,7 +63,7 @@ const Composer = ({ navigation }) => {
                         ></TextInput>
                     </View>
                     <View style={styles.toolbar}>
-                        <Button title="Attach" style={styles.attachButton}></Button>
+                        <Button title="Attach" style={styles.attachButton} onPress={selectImage}></Button>
                         <Button
                             title="Post" style={styles.postButton}
                             onPress={handlePost}
@@ -54,23 +77,25 @@ const Composer = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        minWidth: '390px'
+        minWidth: 390,
+        marginTop: 24,
+        paddingVertical: 22
     },
     containerInner: {
-        padding: '1rem',
-        borderRadius: '16px',
+        padding: 12,
+        borderRadius: 16,
         display: 'flex',
         alignItems: 'flex-start',
         flexDirection: 'row',
         backgroundColor: '#FFFFFF'
     },
     profileImgLink: {
-        marginRight: '1rem'
+        marginRight: 12
     },
     profileImgContainer: {
-        borderRadius: '100%',
-        height: '50px',
-        width: '50px',
+        borderRadius: 25,
+        height: 50,
+        width: 50,
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
@@ -87,11 +112,11 @@ const styles = StyleSheet.create({
     },
     input: {
         width: '100%',
-        padding: '1rem',
-        maxHeight: '600px',
-        borderWidth: '1px',
+        padding: 12,
+        maxHeight: 600,
+        borderWidth: 1,
         borderColor: 'rgb(207, 217, 222)',
-        borderRadius: '6px',
+        borderRadius: 6,
         display: 'flex',
         flexDirection: 'row'
     },
@@ -105,18 +130,18 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'flex-end',
         columnGap: '.5rem',
-        marginTop: '1rem'
+        marginTop: 12
     },
     attachButton: {},
     postButton: {
-        borderRadius: '100%',
-        height: '23px',
-        width: '23px',
+        borderRadius: 23 / 2,
+        height: 23,
+        width: 23,
         display: 'flex',
         justifyContent: 'center',
         borderColor: 'rgb(207, 217, 222)',
         borderStyle: 'solid',
-        borderWidth: '1px'
+        borderWidth: 1
     }
 });
 

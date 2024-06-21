@@ -1,20 +1,15 @@
 import { View, StyleSheet } from "react-native";
 import Composer from "../components/Composer";
 import Feed from "../components/Feed";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-const Home = ({ navigation }) => {
-    const isSessionActive = async () => {
-        const isAuthenticated = await AsyncStorage.getItem('loggedInUserId');
-        if (!isAuthenticated) {
-            navigation.navigate("Login");
-        }
-    };
-    isSessionActive();
+const Home = () => {
+    const { loggedInUserId } = useContext(AuthContext);
     return (
         <View style={styles.flex}>
-            <Composer></Composer>
-            <Feed style={styles.feed}></Feed>
+            <Composer userId={loggedInUserId}></Composer>
+            <Feed id={loggedInUserId} isProfile={false} style={styles.feed} />
         </View>
     );
 };
