@@ -4,13 +4,19 @@ import React from "react";
 const ProfileHeader = ({ user, setEditingProfile }) => {
 	return (
 		<View style={styles.container}>
-			<Image
-				source={{
-					uri: "https://cuv.upc.edu/ca/shared/imatges/fotos-professorat-i-professionals/anonimo.jpg",
-				}}
-				style={styles.profilePicture}
-			/>
-
+			{profile ? (
+				<Image
+					source={{ uri: profile.profilePicture }}
+					style={styles.profileImg}
+				/>
+			) : (
+				<Image
+					source={{
+						uri: "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg",
+					}}
+					style={styles.profileImg}
+				/>
+			)}
 			<Text>
 				`${user.name} ${user.lastName}`
 			</Text>
