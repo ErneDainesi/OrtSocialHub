@@ -11,6 +11,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const navigation = useNavigation();
     const [profile, setProfile] = useState(null);
+    const [loginError, setLoginError] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedInUserId, setLoggedInUserId] = useState(null);
 
@@ -81,9 +82,11 @@ export const AuthProvider = ({ children }) => {
                 setIsLoggedIn(true);
                 setLoggedInUserId(id);
                 navigation.navigate("Home");
+            } else {
+                setLoginError(true);
             }
         } catch (error) {
-            navigation.navigate("Error");
+            setLoginError(true);
         }
     }
 
@@ -111,7 +114,8 @@ export const AuthProvider = ({ children }) => {
         isLoggedIn,
         setIsLoggedIn,
         loggedInUserId,
-        setLoggedInUserId
+        setLoggedInUserId,
+        loginError
     };
 
     return (
