@@ -21,7 +21,7 @@ export const FeedProvider = ({ children }) => {
             const data = await response.json();
             setPosts(data);
         } catch (error) {
-            console.error('Error en el fetch de productos: ', error);
+            console.error('Error while fetching home feed', error);
         }
     }
 
@@ -34,7 +34,7 @@ export const FeedProvider = ({ children }) => {
             const data = await response.json();
             setPosts(data.posts);
         } catch (error) {
-            console.error('Error en el fetch de productos: ', error);
+            console.error('Error while fetching profile feed', error);
         }
     }
 
