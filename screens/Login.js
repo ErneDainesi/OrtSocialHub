@@ -6,7 +6,7 @@ const Login = ({ navigation }) => {
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState(''); 
     const [secureText, setSecureText] = useState(true);
-    const { login } = useContext(AuthContext);
+    const { login, logout } = useContext(AuthContext);
 
     const goToRegister = () => {
         navigation.navigate("Register");
@@ -41,6 +41,10 @@ const Login = ({ navigation }) => {
                 <Button
                     title="Sign in"
                     onPress={handleLogin} 
+                ></Button>
+                <Button
+                    title="Logout"
+                    onPress={logout} 
                 ></Button>
             </View>
         </View>
