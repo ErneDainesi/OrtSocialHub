@@ -13,6 +13,8 @@ export const AuthProvider = ({ children }) => {
     const [profile, setProfile] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedInUserId, setLoggedInUserId] = useState(null);
+    const [followers, setFollowers] = useState([]);
+    const [following, setFollowing] = useState([]);
 
     useEffect(() => {
         const checkAuthStatus = async () => {
@@ -103,15 +105,84 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const followUser = async(userId) =>{
+        try{
+            const response = await fetch (DEV_URL + `/user/follow/${userId}`,{
+                method: "POST",
+                headers:{
+                   'Accept' : 'application/json',
+                   'Content-type' : 'application/json', 
+                },
+                credentials: 'include'
+            } );
+            const result = await response.json();
+            if(result.succes){
+                setFollowing([...following, userId]);
+                console.log("Followed user ok");
+            }else{
+                console.log("Error: ", result.message);
+            }
+        }catch(error){
+            navigation.navigate("Error");
+        }
+    };
+
+    const unfollowUser = async(userId) =>{
+        try{
+            const response = await fetch (DEV_URL + `/user/unfollow/${userId}`,{
+                method: "POST",
+                headers:{
+                   'Accept' : 'application/json',
+                   'Content-type' : 'application/json', 
+                },
+                credentials: 'include'
+            } );
+            const result = await response.json();
+            if(result.succes){
+               setFollowing(following.filter(id => id !== userId));
+               console.log("Unfollowed user ok");
+            } else{
+                console.log("Error: ", result.message);
+            }
+        }catch(error){
+            navigation.navigate("Error");
+        }
+    };
+
+    const fetchFollowers = async(userId) =>{
+        try{
+            const response = await fetch (DEV_URL + `/user/followers/${userId}`,{
+                method: 'GET' ,
+                credentials: 'include'
+            } );
+            const result = await response.json();
+            if(result.succes){
+                setFollowers(result.followers);
+                return result;
+            } else{
+                console.log("Error");
+            }
+        }catch(error){
+            navigation.navigate("Error");
+        }
+    };
+
+
+
     const values = {
         register,
         login,
+        followUser,
+        unfollowUser,
+        fetchFollowers,
         profile,
         fetchUserProfile,
         isLoggedIn,
         setIsLoggedIn,
         loggedInUserId,
-        setLoggedInUserId
+        setLoggedInUserId,
+        followers,
+        following
     };
 
     return (
