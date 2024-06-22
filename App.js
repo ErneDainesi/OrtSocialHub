@@ -29,6 +29,7 @@ const AppNavigator = () => {
             <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
             <Stack.Screen name="Error" component={Error} />
             <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="Followers" component={Followers} />
         </Stack.Navigator>
     );
 }
