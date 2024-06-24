@@ -16,6 +16,7 @@ const ProfileEdit = ({ setEditingProfile }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [profileImage, setProfileImage] = useState("");
+	const [maskedEmail, setMaskedEmail] = useState(maskEmail(email));
 
 	const profileSave = () => {
 		// agregar code para guardar los datos
@@ -32,6 +33,15 @@ const ProfileEdit = ({ setEditingProfile }) => {
 				setProfileImage(response.assets[0].uri);
 			}
 		});
+	};
+
+	const maskEmail = (email) => {
+		const [firstPart, domain] = email.split("@");
+		const visibleChars =
+			username.slice(0, 1) +
+			"*".repeat(firstPart.length - 2) +
+			username.slice(-1);
+		return `${visibleChars}@${domain}`;
 	};
 
 	return (
@@ -60,9 +70,9 @@ const ProfileEdit = ({ setEditingProfile }) => {
 			/>
 			<TextInput
 				style={styles.input}
-				placeholder={email}
-				value={email}
-				onChangeText={setEmail}
+				placeholder={`Email: ${maskEmail(email)}`}
+				value={maskedEmail}
+				onChangeText={(text) => setMaskedEmail(text)}
 			/>
 			<TextInput
 				style={styles.input}
