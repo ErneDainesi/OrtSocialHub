@@ -10,7 +10,7 @@ const Feed = (props) => {
         if (isProfile) {
             fetchProfileFeed(id);
         } else {
-            fetchHomeFeed(id);
+            fetchHomeFeed();
         }
     }, []);
     return (
