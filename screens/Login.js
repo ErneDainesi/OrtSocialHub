@@ -50,7 +50,7 @@ const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         marginTop: 50,
-        
+        padding: 50
     },
     titleContainer: {
         display: 'flex',
