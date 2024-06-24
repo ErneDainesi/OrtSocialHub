@@ -1,30 +1,28 @@
 import { useContext, useEffect } from "react";
-import { FlatList, ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { FeedContext } from "../context/FeedContext";
 import Post from "./Post";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Feed = (props) => {
-	const { posts, fetchProfileFeed, fetchHomeFeed } = useContext(FeedContext);
-	const { id, isProfile } = props;
-	useEffect(() => {
-		// TODO: check if we need to get profile or home posts
-		if (isProfile) {
-			fetchProfileFeed(id);
-		} else {
-			fetchHomeFeed();
-		}
-	}, []);
-	return (
-		<View style={styles.feed}>
-			<FlatList
-				data={posts}
-				renderItem={(data) => <Post data={data.item} />}
-				keyExtractor={(data) => data.post.id}
-			/>
-		</View>
-	);
-};
+    const { posts, fetchProfileFeed, fetchHomeFeed } = useContext(FeedContext);
+    const { id, isProfile } = props;
+    useEffect(() => {
+        if (isProfile) {
+            fetchProfileFeed(id);
+        } else {
+            fetchHomeFeed(id);
+        }
+    }, []);
+    return (
+        <View style={styles.feed}>
+            <FlatList
+                data={posts}
+                renderItem={data => <Post post={data.item} />}
+                keyExtractor={data => data.id}
+            />
+        </View>
+    );
+}
 
 const styles = StyleSheet.create({
 	feed: {

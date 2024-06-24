@@ -1,15 +1,24 @@
 import { useContext, useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Switch } from "react-native";
 import { AuthContext } from "../context/AuthContext";
+import { launchImageLibrary } from "react-native-image-picker";
 
 const Register = ({ navigation }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [profilePicture, setProfilePicture] = useState('');
     const [secureText, setSecureText] = useState(true);
     const [passwordError, setPasswordError] = useState(false);
     const { register } = useContext(AuthContext);
+
+    const selectProfilePicture = async () => {
+        const result = await launchImageLibrary();
+        if (!result.didCancel && result.assets && result.assets.length) {
+            setProfilePicture(result.assets[0].uri)
+        }
+    }
 
     const goToLogin = () => {
         navigation.navigate("Login");
@@ -20,7 +29,7 @@ const Register = ({ navigation }) => {
         //     setPasswordError(true);
         // } else {
         // }
-        register({firstName, lastName, email, password})
+        register({firstName, lastName, email, password, profilePicture})
     }
 
     return (
@@ -55,6 +64,11 @@ const Register = ({ navigation }) => {
                     value={password}
                     onChangeText={setPassword}
                 />
+                <Button
+                    title="Upload profile picture"
+                    style={styles.attachButton}
+                    onPress={selectProfilePicture}>
+                </Button>
                 <View>
                     <Text style={{paddingTop: '.5rem'}}>Hide password</Text>
                     <Switch value={secureText} onValueChange={setSecureText}></Switch>

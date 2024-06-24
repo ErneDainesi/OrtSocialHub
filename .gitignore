@@ -32,5 +32,7 @@ yarn-error.*
 .env*.local
 .env
 
+ortsocialhub-firebase-adminsdk-3e2fx-93628a0328.json
+
 # typescript
 *.tsbuildinfo

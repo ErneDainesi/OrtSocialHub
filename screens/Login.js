@@ -6,7 +6,7 @@ const Login = ({ navigation }) => {
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState(''); 
     const [secureText, setSecureText] = useState(true);
-    const { login } = useContext(AuthContext);
+    const { login, loginError } = useContext(AuthContext);
 
     const goToRegister = () => {
         navigation.navigate("Register");
@@ -17,11 +17,12 @@ const Login = ({ navigation }) => {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>Login</Text>
-                <Text style={styles.title}>Don't have an account? <Text style={styles.link} onPress={goToRegister}>Register here.</Text></Text>  
-            </View>  
+                <Text style={styles.title}>Don't have an account? <Text style={styles.link} onPress={goToRegister}>Register here.</Text></Text>
+            </View>
+            {loginError && <Text style={styles.invalidCredentials}>Invalid credentials</Text>}
             <View style={styles.form}>
                 <TextInput style={styles.input}
                     placeholder="Email"
@@ -35,7 +36,7 @@ const Login = ({ navigation }) => {
                     onChangeText={setPassword}
                 />
                 <View>
-                    <Text style={{paddingTop: '.5rem'}}>Hide password</Text>
+                    <Text style={styles.passPrompt}>Hide password</Text>
                     <Switch value={secureText} onValueChange={setSecureText}></Switch>
                 </View>
                 <Button
@@ -48,6 +49,10 @@ const Login = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        marginTop: 50,
+        padding: 50
+    },
     titleContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -59,14 +64,20 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         textAlign: 'center'
     },
-    passError: {
-        color: 'red'
+    subtitle: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    invalidCredentials: {
+        color: 'red',
+        textAlign: 'center',
+        marginBottom: 12
     },
     form: {
         paddingHorizontal: '50rem',
         display: 'flex',
         flexDirection: 'column',
-        rowGap: '1rem',
+        rowGap: 10,
         alignContent: 'center'
     },
     input: {
@@ -74,11 +85,13 @@ const styles = StyleSheet.create({
         borderColor: '#000000',
         borderWidth: '1px',
         borderRadius: '6px',
-        padding: '.5rem'
+        padding: 5
     },
     link: {
         color: '#4ea6ed',
-        cursor: 'pointer'
+    },
+    passPrompt: {
+        paddingTop: 5
     }
 });
 

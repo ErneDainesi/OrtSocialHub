@@ -10,19 +10,6 @@ import { AuthContext } from "../context/AuthContext";
 const Profile = ({ route }) => {
 	const [user, setUser] = useState({ name: "juan", lastname: "abutti" });
 	const [editingProfile, setEditingProfile] = useState(false);
-	//const [ownProfile, setOwnProfile] = useState(false);
-	// const { profile, fetchUserProfile } = useContext(AuthContext);
-	// const { userId } = route.params;
-	// const isOwnProfile = async () => {
-	// 	const loggedInUserId = await AsyncStorage.getItem("loggedInUserId");
-	// 	setOwnProfile(loggedInUserId === userId);
-	// };
-	// isOwnProfile();
-	// useEffect(() => {
-	// 	fetchUserProfile(userId);
-	// }, [userId]);
-
-	//if (!profile) return;
 
 	return editingProfile ? (
 		<ProfileEdit setEditingProfile={setEditingProfile} />
