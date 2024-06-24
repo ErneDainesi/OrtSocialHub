@@ -5,3 +5,4 @@ export const PROJECT_ID = process.env.EXPO_PUBLIC_PROJECTID;
 export const STORAGE_BUCKET = process.env.EXPO_PUBLIC_STORAGEBUCKET;
 export const MESSAGING_SENDER_ID = process.env.EXPO_PUBLIC_MESSAGINGSENDERID;
 export const APP_ID = process.env.EXPO_PUBLIC_APPID;
+export const NEWS_API_URL =process.env.REACT_APP_NEWS_API_URL;
