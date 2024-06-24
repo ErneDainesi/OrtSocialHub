@@ -48,13 +48,13 @@ const ProfileEdit = ({ setEditingProfile }) => {
 			</TouchableOpacity>
 			<TextInput
 				style={styles.input}
-				placeholder={firstName}
+				placeholder={`${firstName}`}
 				value={firstName}
 				onChangeText={setFirstName}
 			/>
 			<TextInput
 				style={styles.input}
-				placeholder={lastName}
+				placeholder={`${lastName}`}
 				value={lastName}
 				onChangeText={setLastName}
 			/>
@@ -66,7 +66,7 @@ const ProfileEdit = ({ setEditingProfile }) => {
 			/>
 			<TextInput
 				style={styles.input}
-				placeholder={password}
+				placeholder="Change Password"
 				value={password}
 				onChangeText={setPassword}
 			/>
