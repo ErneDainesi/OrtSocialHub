@@ -6,7 +6,7 @@ const Login = ({ navigation }) => {
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState(''); 
     const [secureText, setSecureText] = useState(true);
-    const { login } = useContext(AuthContext);
+    const { login, loginError } = useContext(AuthContext);
 
     const goToRegister = () => {
         navigation.navigate("Register");
@@ -21,7 +21,8 @@ const Login = ({ navigation }) => {
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>Login</Text>
                 <Text style={styles.title}>Don't have an account? <Text style={styles.link} onPress={goToRegister}>Register here.</Text></Text>
-            </View>  
+            </View>
+            {loginError && <Text style={styles.invalidCredentials}>Invalid credentials</Text>}
             <View style={styles.form}>
                 <TextInput style={styles.input}
                     placeholder="Email"
@@ -67,8 +68,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
     },
-    passError: {
-        color: 'red'
+    invalidCredentials: {
+        color: 'red',
+        textAlign: 'center',
+        marginBottom: 12
     },
     form: {
         paddingHorizontal: '50rem',

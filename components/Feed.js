@@ -18,8 +18,8 @@ const Feed = (props) => {
         <View style={styles.feed}>
             <FlatList
                 data={posts}
-                renderItem={data => <Post data={data.item} />}
-                keyExtractor={data => data.post.id}
+                renderItem={data => <Post post={data.item} />}
+                keyExtractor={data => data.id}
             />
         </View>
     );
