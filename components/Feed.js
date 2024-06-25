@@ -7,7 +7,7 @@ const Feed = (props) => {
     const { posts, fetchProfileFeed, fetchHomeFeed } = useContext(FeedContext);
     const { id, isProfile } = props;
     useEffect(() => {
-        // TODO: check if we need to get profile or home posts
+        // FIXME: profile posts are being sent to home
         if (isProfile) {
             fetchProfileFeed(id);
         } else {
