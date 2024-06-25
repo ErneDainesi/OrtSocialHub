@@ -37,8 +37,18 @@ export const AuthProvider = ({ children }) => {
         return url;
     }
 
-    const register = async (payload) => {
+    const validatePassword = (password) => {
+        // Regular expression to check password strength
+        const regex = /^(?=.*[A-Z])(?=.*\W).{12,}$/;
+        return regex.test(password);
+    };
+
+    const register = async (payload, setPasswordError) => {
         try {
+            if (!validatePassword(payload.password)) {
+                setPasswordError(true);
+                return;
+            }
             let downloadUrl = "";
             if (payload.profilePicture) {
                 downloadUrl = await uploadFile(payload.profilePicture);
