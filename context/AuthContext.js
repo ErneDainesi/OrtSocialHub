@@ -109,7 +109,6 @@ export const AuthProvider = ({ children }) => {
             }
         } catch(error) {
             navigation.navigate("Error");
-
         }
     };
 
