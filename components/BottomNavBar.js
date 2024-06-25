@@ -27,13 +27,19 @@ export const BottomNavBar = ({loggedInUserId}) => {
                     }
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
+                "tabBarActiveTintColor": "grey",
+                "tabBarInactiveTintColor": "grey",
+                "tabBarLabelStyle": {
+                    "paddingBottom": 10,
+                    "fontSize": 15
+                },
+                "tabBarStyle": [
+                    {
+                        "display": "flex"
+                    },
+                    null
+                ]
             })}
-            tabBarOptions={{
-                activeTintColor: 'grey',
-                inactiveTintColor: 'grey',
-                labelStyle: { paddingBottom: 10, fontSize: 15 },
-                style: { padding: 10, height: 70 },
-            }}
         >
             <Tab.Screen name="Home" component={Home} options={{tabBarShowLabel: false}} />
             <Tab.Screen name="NewsFeed" component={NewsFeed} options={{tabBarShowLabel: false}} />  
@@ -58,13 +64,19 @@ export const NotLoggedInBar = () => {
                     }
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
+                "tabBarActiveTintColor": "grey",
+                "tabBarInactiveTintColor": "grey",
+                "tabBarLabelStyle": {
+                    "paddingBottom": 10,
+                    "fontSize": 15
+                },
+                "tabBarStyle": [
+                    {
+                        "display": "flex"
+                    },
+                    null
+                ]
             })}
-            tabBarOptions={{
-                activeTintColor: 'grey',
-                inactiveTintColor: 'grey',
-                labelStyle: { paddingBottom: 10, fontSize: 15 },
-                style: { padding: 10, height: 70 },
-            }}
         >
             <Tab.Screen name="Login" component={Login} options={{tabBarShowLabel: false}} />
             <Tab.Screen name="Register" component={Register} options={{tabBarShowLabel: false}} />
