@@ -154,12 +154,11 @@ export const AuthProvider = ({ children }) => {
             });
             const result = await response.json();
             if (result.success) {
-                setFollowing([...following, userId]);
-                console.log("Followed user ok");
+                setFollowing(prevFollowing => [...prevFollowing, result.follow]);
             } else {
                 console.log("Error: ", result.message);
             }
-        }catch(error){
+        } catch(error) {
             navigation.navigate("Error");
         }
     };
@@ -177,8 +176,7 @@ export const AuthProvider = ({ children }) => {
             });
             const result = await response.json();
             if (result.success) {
-               setFollowing(following.filter(id => id !== userId));
-               console.log("Unfollowed user ok");
+               setFollowing(prevFollowing => prevFollowing.filter(id => id !== userId));
             } else {
                 console.log("Error: ", result.message);
             }
@@ -214,7 +212,7 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const fetchFollowers = async(userId) => {
+    const fetchFollowing = async(userId) => {
         try {
             const response = await fetch (DEV_URL + `/user/followers/${userId}`, {
                 method: 'GET',
@@ -222,7 +220,7 @@ export const AuthProvider = ({ children }) => {
             });
             const result = await response.json();
             if (result.success) {
-                setFollowers(result.following);
+                setFollowing(result.following);
             } else {
                 console.log("Error", result);
             }
@@ -236,7 +234,7 @@ export const AuthProvider = ({ children }) => {
         login,
         followUser,
         unfollowUser,
-        fetchFollowers,
+        fetchFollowing,
         logout,
         profile,
         fetchUserProfile,
