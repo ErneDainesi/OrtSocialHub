@@ -20,11 +20,10 @@ export const BottomNavBar = ({loggedInUserId}) => {
                     } else if (route.name === 'NewsFeed') {
                         iconName = focused ? 'document' : 'document-outline';
                     } else if (route.name === 'Profile') {
-                      iconName = focused ? 'person' : 'person-outline';
-                  }else if (route.name === 'Logout') {
-                    iconName = focused ? 'log-out' : 'log-out-outline';
-                }
-
+                        iconName = focused ? 'person' : 'person-outline';
+                    } else if (route.name === 'Logout') {
+                        iconName = focused ? 'log-out' : 'log-out-outline';
+                    }
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
             })}
@@ -35,9 +34,9 @@ export const BottomNavBar = ({loggedInUserId}) => {
                 style: { padding: 10, height: 70 },
             }}
         >
-            <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="NewsFeed" component={NewsFeed} />  
-            <Tab.Screen name="Profile" component={Profile} initialParams={{userId: loggedInUserId}}/>
+            <Tab.Screen name="Home" component={Home} options={{tabBarShowLabel: false}} />
+            <Tab.Screen name="NewsFeed" component={NewsFeed} options={{tabBarShowLabel: false}} />  
+            <Tab.Screen name="Profile" component={Profile} initialParams={{userId: loggedInUserId}} options={{tabBarShowLabel: false}} />
         </Tab.Navigator>
     );
 };
@@ -52,9 +51,9 @@ export const NotLoggedInBar = () => {
                         iconName = focused ? 'home' : 'home-outline';
                     } else if (route.name === 'Login') {
                         iconName = focused ? 'log-in' : 'log-in-outline';
-                    }else if (route.name === 'Register') {
-                      iconName = focused ? 'create' : 'create-outline';
-                  }
+                    } else if (route.name === 'Register') {
+                        iconName = focused ? 'create' : 'create-outline';
+                    }
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
             })}
