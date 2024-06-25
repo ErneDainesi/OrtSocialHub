@@ -9,7 +9,7 @@ import Profile from '../screens/Profile';
 
 const Tab = createBottomTabNavigator();
 
-export const BottomNavBar = () => {
+export const BottomNavBar = ({loggedInUserId}) => {
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -32,7 +32,7 @@ export const BottomNavBar = () => {
         >
             <Tab.Screen name="Home" component={Home} />
             <Tab.Screen name="NewsFeed" component={NewsFeed} />  
-            <Tab.Screen name="Profile" component={Profile} />
+            <Tab.Screen name="Profile" component={Profile} initialParams={{userId: loggedInUserId}}/>
         </Tab.Navigator>
     );
 };

@@ -6,11 +6,11 @@ import { NotLoggedInBar, BottomNavBar } from './components/BottomNavBar';
 import { NewsPostProvider } from './context/NewsPostContext';
 
 const Root = () => {
-    const { isLoggedIn } = useContext(AuthContext);
+    const { isLoggedIn, loggedInUserId } = useContext(AuthContext);
     return (
         <FeedProvider>
             <NewsPostProvider>
-                {isLoggedIn ? <BottomNavBar /> : <NotLoggedInBar />}
+                {isLoggedIn ? <BottomNavBar loggedInUserId={loggedInUserId} /> : <NotLoggedInBar />}
             </NewsPostProvider>
         </FeedProvider>
     );
