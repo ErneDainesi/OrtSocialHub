@@ -1,6 +1,9 @@
+import { useNavigation } from "@react-navigation/native";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-const Post = ({post, user, navigation}) => {
+const Post = ({ post }) => {
+    const navigation = useNavigation();
+    const user = post.User;
     const formatDate = (timestamp) => {
         const date = new Date(timestamp);
         const day = String(date.getUTCDate()).padStart(2, '0');
@@ -12,8 +15,7 @@ const Post = ({post, user, navigation}) => {
     }
 
     const goToProfile = () => {
-        // TODO: change Home for users profile
-        navigation.navigate("Home");
+        navigation.navigate("Profile", {userId: user.id});
     }
     return (
         <View style={styles.post}>
@@ -24,10 +26,7 @@ const Post = ({post, user, navigation}) => {
                 >
                     <View style={styles.postCreatorContainer}>
                         <Image
-                            // TODO: change this for post owner picture
-                            source={{
-                                uri: "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg",
-                            }}
+                            source={{uri: user.profilePicture}}
                             style={styles.postCreatorImg}
                         />
                     </View>
@@ -38,6 +37,7 @@ const Post = ({post, user, navigation}) => {
                         <Text style={styles.timestamp}>{formatDate(post.createdAt)}</Text>
                     </View>
                     <Text style={styles.contentText}>{post.text}</Text>
+                    {!!post.attachmentUrl.length && <Image source={{uri: post.attachmentUrl}} style={styles.attachment}/>}
                 </View>
             </View>
         </View>
@@ -46,24 +46,24 @@ const Post = ({post, user, navigation}) => {
 
 const styles = StyleSheet.create({
     post: {
-        minWidth: '390px',
-        marginBottom: '.5rem'
+        minWidth: 390,
+        marginBottom: 6
     },
     postInner: {
-        padding: '1rem',
-        borderRadius: '16px',
+        padding: 12,
+        borderRadius: 16,
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
-        maxWidth: '580px'
+        maxWidth: 580
     },
     profileImgLink: {
-        marginRight: '1rem'
+        marginRight: 12
     },
     postCreatorContainer: {
         borderRadius: '100%',
-        height: '50px',
-        width: '50px',
+        height: 50,
+        width: 50,
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
@@ -79,19 +79,24 @@ const styles = StyleSheet.create({
         flexGrow: '1'
     },
     contentHeader: {
-        marginBottom: '1rem'
+        marginBottom: 12
     },
     contentText: {
         width: '100%',
-        maxWidth: '470px'
+        maxWidth: 470,
+        marginBottom: 12
     },
     creator: {
-        fontSize: '18px',
+        fontSize: 18,
         fontWeight: '800'
     },
     timestamp: {
         fontStyle: 'italic',
         color: '#b3b6ba'
+    },
+    attachment: {
+        width: '100%',
+        height: 300
     }
 });
 
