@@ -1,9 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-const Post = ({data}) => {
+const Post = ({ post }) => {
     const navigation = useNavigation();
-    const {post, user} = data;
+    const user = post.User;
     const formatDate = (timestamp) => {
         const date = new Date(timestamp);
         const day = String(date.getUTCDate()).padStart(2, '0');
@@ -37,7 +37,7 @@ const Post = ({data}) => {
                         <Text style={styles.timestamp}>{formatDate(post.createdAt)}</Text>
                     </View>
                     <Text style={styles.contentText}>{post.text}</Text>
-                    {post.attachmentUrl && <Image source={{uri: post.attachmentUrl}} style={styles.attachment}/>}
+                    {!!post.attachmentUrl.length && <Image source={{uri: post.attachmentUrl}} style={styles.attachment}/>}
                 </View>
             </View>
         </View>
