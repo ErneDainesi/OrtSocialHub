@@ -140,20 +140,21 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const followUser = async(userId) => {
+    const followUser = async(userId, setIsFollowing) => {
         try {
             const loggedInUserId = await AsyncStorage.getItem('loggedInUserId');
             const response = await fetch (DEV_URL + '/user/follow',{
                 method: "POST",
                 headers:{
-                   'Accept' : 'application/json',
-                   'Content-type' : 'application/json', 
+                    'Accept' : 'application/json',
+                    'Content-type' : 'application/json'
                 },
                 body: JSON.stringify({followerId: loggedInUserId, followedId: userId}),
                 credentials: 'include'
             });
             const result = await response.json();
             if (result.success) {
+                setIsFollowing(true);
                 setFollowing(prevFollowing => [...prevFollowing, result.follow]);
             } else {
                 console.log("Error: ", result.message);
@@ -163,20 +164,21 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const unfollowUser = async(userId) => {
+    const unfollowUser = async(userId, setIsFollowing) => {
         try {
             const response = await fetch (DEV_URL + "/user/unfollow", {
                 method: "POST",
                 headers: {
-                   'Accept' : 'application/json',
-                   'Content-type' : 'application/json', 
+                    'Accept' : 'application/json',
+                    'Content-type' : 'application/json'
                 },
                 body: JSON.stringify({followerId: loggedInUserId, followedId: userId}),
                 credentials: 'include'
             });
             const result = await response.json();
             if (result.success) {
-               setFollowing(prevFollowing => prevFollowing.filter(id => id !== userId));
+                setIsFollowing(false);
+                setFollowing(prevFollowing => prevFollowing.filter(id => id !== userId));
             } else {
                 console.log("Error: ", result.message);
             }

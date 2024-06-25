@@ -13,15 +13,6 @@ const ProfileHeader = ({ profile, setEditingProfile }) => {
         const loggedInUserId = await AsyncStorage.getItem('loggedInUserId');
         setOwnProfile(loggedInUserId == profile.id);
     };
-    const handleProfilePress = () => {
-        if (ownProfile) {
-            setEditingProfile(true);
-        } else if (isFollowing) {
-            unfollowUser(profile.id);
-        } else {
-            followUser(profile.id);
-        }
-    };
 
     const handleViewFollowing= () =>{
         navigation.navigate("Following", {userId: profile.id});
@@ -62,10 +53,12 @@ const ProfileHeader = ({ profile, setEditingProfile }) => {
 				{`${profile.firstName} ${profile.lastName}`}
 			</Text>
             <Button title="Following" onPress={handleViewFollowing} />
-			<Button
-				title={getButtonTitle()}
-				onPress={handleProfilePress}
-			/>
+            {ownProfile && <Button onPress={() => setEditingProfile(true)} />}
+            {
+                !ownProfile && isFollowing ?
+                    <Button title="Unfollow" onPress={() => unfollowUser(profile.id, setIsFollowing)} /> :
+                    <Button title="Follow" onPress={() => followUser(profile.id, setIsFollowing)} />
+            }
 		</View>
 	);
 };
