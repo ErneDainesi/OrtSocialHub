@@ -42,7 +42,7 @@ const Login = ({ navigation }) => {
                 <Button
                     title="Sign in"
                     onPress={handleLogin} 
-                ></Button>  
+                ></Button>
             </View>
         </View>
     );
