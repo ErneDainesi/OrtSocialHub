@@ -5,25 +5,20 @@ import { AuthContext } from "../context/AuthContext";
 
 const Followers = ({ route }) => {
     const {userId} = route.params;
-    const{ fetchFollowers, Followers}= useContext(AuthContext);
-    const[ localFollowers, setLocalFollowers] = useState([]);
+    const {fetchFollowers, followers} = useContext(AuthContext);
 
     useEffect(() =>{
-        const loadFollowers = async () => {
-            const result = await fetchFollowers(userId);
-            setLocalFollowers(result.Followers);
-        };
-        loadFollowers();
+        fetchFollowers(userId);
     }, [userId]);
 
     return (
         <View>
             <FlatList
-              data={localFollowers}
-              keyExtractor={(item) => item.id.toString()}
+              data={followers}
+              keyExtractor={(item) => item.followerId}
               renderItem={({item}) =>(
                 <View>
-                    <Text>{item.firstName} {item.lastName}</Text>
+                    <Text>{item.Followed.firstName} {item.Followed.lastName}</Text>
                 </View>    
               )}
             />  

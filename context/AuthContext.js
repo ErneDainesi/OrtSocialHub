@@ -143,7 +143,7 @@ export const AuthProvider = ({ children }) => {
                 credentials: 'include'
             });
             const result = await response.json();
-            if (result.succes) {
+            if (result.success) {
                 setFollowing([...following, userId]);
                 console.log("Followed user ok");
             } else {
@@ -166,7 +166,7 @@ export const AuthProvider = ({ children }) => {
                 credentials: 'include'
             });
             const result = await response.json();
-            if (result.succes) {
+            if (result.success) {
                setFollowing(following.filter(id => id !== userId));
                console.log("Unfollowed user ok");
             } else {
@@ -184,8 +184,8 @@ export const AuthProvider = ({ children }) => {
                 credentials: 'include'
             });
             const result = await response.json();
-            if (result.succes) {
-                setFollowers(result.followers);
+            if (result.success) {
+                setFollowers(result.following);
             } else {
                 console.log("Error", result);
             }

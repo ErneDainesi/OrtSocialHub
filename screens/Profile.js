@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { View, Image, Button, Text } from "react-native";
+import { View, Button, Text } from "react-native";
 import { AuthContext } from "../context/AuthContext";
 import Feed from "../components/Feed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -11,7 +11,7 @@ const Profile = ({ route, navigation }) => {
     
     const isOwnProfile = async () => {
         const loggedInUserId = await AsyncStorage.getItem('loggedInUserId');
-        setOwnProfile(loggedInUserId === userId);
+        setOwnProfile(loggedInUserId == userId);
     };
     
     isOwnProfile();
@@ -39,7 +39,10 @@ const Profile = ({ route, navigation }) => {
               <View>
                  <Text>{`${profile.firstName} ${profile.lastName}`}</Text>
                  {ownProfile ? (
-                    <Button title="Edit"/>
+                        <>
+                            <Button title="Edit"/>
+                            <Button title="View Followers" onPress={handleViewFollowers} />
+                        </>
                  ) :(
                     <>
                      {isFollowing ? (
@@ -47,7 +50,6 @@ const Profile = ({ route, navigation }) => {
                      ):(
                         <Button title="Follow" onPress={handleFollow}/>
                      )}
-                     <Button title="View Followers" onPress={handleViewFollowers} />
                     </>
                  )}
               </View>
