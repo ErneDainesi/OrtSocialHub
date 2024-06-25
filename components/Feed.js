@@ -27,6 +27,9 @@ const Feed = (props) => {
 const styles = StyleSheet.create({
 	feed: {
 		marginTop: "2rem",
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
 	},
 });
 
