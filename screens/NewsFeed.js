@@ -13,10 +13,10 @@ const NewsFeed= () => {
               keyExtractor={(item) => item.id.toString()}
               renderItem={({item})=> (
                  <Post
-                  title={item.title}
-                  content={item.content}
-                  imageUrl={item.imageUrl}
-                  url={item.url}
+                  title={`${item.title}`}
+                  content={`${item.content}`}
+                  imageUrl={`${item.imageUrl}`}
+                  url={`${item.url}`}
                 />
               )}
            />
