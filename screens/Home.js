@@ -6,7 +6,6 @@ import { AuthContext } from "../context/AuthContext";
 
 const Home = () => {
     const { loggedInUserId, logout } = useContext(AuthContext);
-    // TODO: remove the logout button from here
     return (
         <View style={styles.flex}>
             <Button

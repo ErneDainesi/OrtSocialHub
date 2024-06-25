@@ -1,9 +1,9 @@
+import { useContext, useEffect, useState } from "react";
 import { View } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 import ProfileHeader from "../components/ProfileHeader";
 import ProfileEdit from "../components/ProfileEdit";
 import Feed from "../components/Feed";
-import { AuthContext } from "../context/AuthContext";
 
 const Profile = ({ route }) => {
 	const [editingProfile, setEditingProfile] = useState(false);

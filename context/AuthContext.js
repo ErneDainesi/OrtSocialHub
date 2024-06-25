@@ -14,6 +14,8 @@ export const AuthProvider = ({ children }) => {
     const [loginError, setLoginError] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedInUserId, setLoggedInUserId] = useState(null);
+    const [followers, setFollowers] = useState([]);
+    const [following, setFollowing] = useState([]);
 
     useEffect(() => {
         const checkAuthStatus = async () => {
@@ -138,6 +140,53 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const followUser = async(userId, setIsFollowing) => {
+        try {
+            const loggedInUserId = await AsyncStorage.getItem('loggedInUserId');
+            const response = await fetch (DEV_URL + '/user/follow',{
+                method: "POST",
+                headers:{
+                    'Accept' : 'application/json',
+                    'Content-type' : 'application/json'
+                },
+                body: JSON.stringify({followerId: loggedInUserId, followedId: userId}),
+                credentials: 'include'
+            });
+            const result = await response.json();
+            if (result.success) {
+                setIsFollowing(true);
+                setFollowing(prevFollowing => [...prevFollowing, result.follow]);
+            } else {
+                console.log("Error: ", result.message);
+            }
+        } catch(error) {
+            navigation.navigate("Error");
+        }
+    };
+
+    const unfollowUser = async(userId, setIsFollowing) => {
+        try {
+            const response = await fetch (DEV_URL + "/user/unfollow", {
+                method: "POST",
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-type' : 'application/json'
+                },
+                body: JSON.stringify({followerId: loggedInUserId, followedId: userId}),
+                credentials: 'include'
+            });
+            const result = await response.json();
+            if (result.success) {
+                setIsFollowing(false);
+                setFollowing(prevFollowing => prevFollowing.filter(id => id !== userId));
+            } else {
+                console.log("Error: ", result.message);
+            }
+        } catch(error) {
+            navigation.navigate("Error");
+        }
+    };
+
     const editProfile = async (payload, setEditingProfile) => {
         try {
             let downloadUrl = "";
@@ -165,9 +214,29 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const fetchFollowing = async(userId) => {
+        try {
+            const response = await fetch (DEV_URL + `/user/followers/${userId}`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+            const result = await response.json();
+            if (result.success) {
+                setFollowing(result.following);
+            } else {
+                console.log("Error", result);
+            }
+        } catch(error) {
+            navigation.navigate("Error");
+        }
+    };
+
     const values = {
         register,
         login,
+        followUser,
+        unfollowUser,
+        fetchFollowing,
         logout,
         profile,
         fetchUserProfile,
@@ -175,6 +244,8 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn,
         loggedInUserId,
         setLoggedInUserId,
+        followers,
+        following,
         loginError,
         editProfile
     };

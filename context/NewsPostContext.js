@@ -20,7 +20,7 @@ export const NewsPostProvider = ({ children }) => {
                     publishedAt: article.publishedAt
                 }));
                 setPosts(formattedData)
-            } catch(error){
+            } catch(error) {
                 console.error('Error fetching posts:', error);
             }
         };

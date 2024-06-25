@@ -12,8 +12,7 @@ export const FeedProvider = ({ children }) => {
 
     const fetchHomeFeed = async () => {
         try {
-            const currentUserId = await AsyncStorage.getItem('loggedInUserId');
-            const response = await fetch(DEV_URL + `/posts/home/${currentUserId}`, {
+            const response = await fetch(DEV_URL + '/posts/home', {
                 method: 'GET',
                 credentials: 'include'
             });
