@@ -90,6 +90,28 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const logout = async () => {
+        try{
+            const response = await fetch(DEV_URL + '/user/logout',{
+                method: "POST",
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                },
+                credentials: 'include'
+            });
+            const result = await response.json();
+            if (result.success) {
+                await AsyncStorage.removeItem('loggedInUserId');
+                setIsLoggedIn(false);
+                setLoggedInUserId(null);
+                navigation.navigate("Login");
+            }
+        } catch(error) {
+            navigation.navigate("Error");
+        }
+    };
+
 
     const fetchUserProfile = async (userId) => {
         try {
@@ -109,6 +131,7 @@ export const AuthProvider = ({ children }) => {
     const values = {
         register,
         login,
+        logout,
         profile,
         fetchUserProfile,
         isLoggedIn,
