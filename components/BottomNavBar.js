@@ -17,9 +17,14 @@ export const BottomNavBar = ({loggedInUserId}) => {
                     let iconName;
                     if (route.name === 'Home') {
                         iconName = focused ? 'home' : 'home-outline';
-                    } else if (route.name === 'Login') {
-                        iconName = focused ? 'log-in' : 'log-in-outline';
-                    }
+                    } else if (route.name === 'NewsFeed') {
+                        iconName = focused ? 'document' : 'document-outline';
+                    } else if (route.name === 'Profile') {
+                      iconName = focused ? 'person' : 'person-outline';
+                  }else if (route.name === 'Logout') {
+                    iconName = focused ? 'log-out' : 'log-out-outline';
+                }
+
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
             })}
@@ -47,7 +52,9 @@ export const NotLoggedInBar = () => {
                         iconName = focused ? 'home' : 'home-outline';
                     } else if (route.name === 'Login') {
                         iconName = focused ? 'log-in' : 'log-in-outline';
-                    }
+                    }else if (route.name === 'Register') {
+                      iconName = focused ? 'create' : 'create-outline';
+                  }
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
             })}
