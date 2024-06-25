@@ -18,13 +18,6 @@ const ProfileHeader = ({ profile, setEditingProfile }) => {
         navigation.navigate("Following", {userId: profile.id});
     };
 
-    const getButtonTitle = () => {
-        if (ownProfile) {
-            return "Edit Profile";
-        }
-        return isFollowing ? "Unfollow" : "Follow";
-    };
-
     useEffect(() => {
         if (profile) {
             isOwnProfile();
@@ -32,6 +25,7 @@ const ProfileHeader = ({ profile, setEditingProfile }) => {
         fetchFollowing(loggedInUserId);
         setIsFollowing(following.find(({followedId}) => followedId === profile.id));
     }, [profile]);
+
 	return (
 		<View style={styles.container}>
             <View style={styles.profileImgContainer}>
