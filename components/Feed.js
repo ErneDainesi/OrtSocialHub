@@ -7,7 +7,6 @@ const Feed = (props) => {
     const { posts, fetchProfileFeed, fetchHomeFeed } = useContext(FeedContext);
     const { id, isProfile } = props;
     useEffect(() => {
-        // TODO: check if we need to get profile or home posts
         if (isProfile) {
             fetchProfileFeed(id);
         } else {
@@ -26,9 +25,12 @@ const Feed = (props) => {
 }
 
 const styles = StyleSheet.create({
-    feed: {
-        marginTop: '2rem'
-    }
+	feed: {
+		marginTop: "2rem",
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+	},
 });
 
 export default Feed;

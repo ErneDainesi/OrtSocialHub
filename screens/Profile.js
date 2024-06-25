@@ -1,34 +1,25 @@
-import { useContext, useEffect, useState } from "react";
-import { View, Image, Button, Text } from "react-native";
-import { AuthContext } from "../context/AuthContext";
+import { View } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import ProfileHeader from "../components/ProfileHeader";
+import ProfileEdit from "../components/ProfileEdit";
 import Feed from "../components/Feed";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../context/AuthContext";
 
 const Profile = ({ route }) => {
-    const [ownProfile, setOwnProfile] = useState(false);
-    const {profile, fetchUserProfile} = useContext(AuthContext)
+	const [editingProfile, setEditingProfile] = useState(false);
     const {userId} = route.params;
-    const isOwnProfile = async () => {
-        const loggedInUserId = await AsyncStorage.getItem('loggedInUserId');
-        setOwnProfile(loggedInUserId === userId);
-    };
-    isOwnProfile();
+    const {profile, fetchUserProfile} = useContext(AuthContext)
     useEffect(() => {
         fetchUserProfile(userId);
     }, [userId]);
-    return (
-        <View>
-            {profile && (<>
-                <View>
-                    <Text>{`${profile.firstName} ${profile.lastName}`}</Text>
-                    <Button
-                        title={ownProfile ? "Edit" : "Follow/Unfollow"}
-                    ></Button>
-                </View>
-                <Feed id={profile.id} isProfile={true} />
-            </>)}
-        </View>
-    );
-}
+	return editingProfile ? (
+		<ProfileEdit setEditingProfile={setEditingProfile} profile={profile} />
+	) : (
+		<View>
+			<ProfileHeader profile={profile} setEditingProfile={setEditingProfile} />
+			<Feed id={profile.id} isProfile={true} />
+		</View>
+	);
+};
 
 export default Profile;
