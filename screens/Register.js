@@ -1,13 +1,12 @@
 import { useContext, useState } from "react";
 import {
-	View,
-	Text,
-	TextInput,
-	Button,
-	StyleSheet,
-	Switch,
-	Linking,
-    Alert,
+    View,
+    Text,
+    TextInput,
+    Button,
+    StyleSheet,
+    Switch,
+    Linking
 } from "react-native";
 import { AuthContext } from "../context/AuthContext";
 import CheckBox from "react-native-check-box";
@@ -21,6 +20,7 @@ const Register = ({ navigation }) => {
     const [profilePicture, setProfilePicture] = useState('');
     const [secureText, setSecureText] = useState(true);
     const [passwordError, setPasswordError] = useState(false);
+    const [acceptedTerms, setAcceptedTerms] = useState(false);
     const { register } = useContext(AuthContext);
 
     const selectProfilePicture = async () => {
@@ -35,14 +35,16 @@ const Register = ({ navigation }) => {
     }
 
     const handleSubmit = () => {
-		if (!acceptedTerms) {
-			Alert.alert(
-				"Error",
-				"You must accept the terms and conditions to register."
-			);
-			return;
-		}
-        register({firstName, lastName, email, password, profilePicture})
+        if (!acceptedTerms) {
+            alert(
+                "You must accept the terms and conditions to register."
+            );
+            return;
+        }
+        register(
+            {firstName, lastName, email, password, profilePicture},
+            setPasswordError
+        );
     }
 
     return (
@@ -69,7 +71,7 @@ const Register = ({ navigation }) => {
                 />
                 {
                     passwordError && 
-                        (<Text style={styles.passError}>Password must have at least 12 characters</Text>)
+                        (<Text style={styles.passError}>Password must have at least 12 characters, one uppercase letter and a simbol</Text>)
                 }
                 <TextInput style={styles.input}
                     secureTextEntry={secureText}
@@ -86,25 +88,24 @@ const Register = ({ navigation }) => {
                     <Text style={{paddingTop: '.5rem'}}>Hide password</Text>
                     <Switch value={secureText} onValueChange={setSecureText}></Switch>
                 </View>
-				<View style={styles.checkboxContainer}>
-					<CheckBox
-						isChecked={acceptedTerms}
-						onClick={() => setAcceptedTerms(!acceptedTerms)}
-					/>
-					<Text style={styles.label}>
-						I accept{" "}
-						<Text
-							style={{ color: "blue" }}
-							onPress={() =>
-								Linking.openURL(
-									"https://fakegodsbrand.com/pages/terminos-y-condiciones"
-								)
-							}
-						>
-							the terms and conditions
-						</Text>
-					</Text>
-				</View>
+                <View style={styles.checkboxContainer}>
+                    <CheckBox
+                        isChecked={acceptedTerms}
+                        onClick={() => setAcceptedTerms(!acceptedTerms)}
+                    />
+                    <Text style={styles.label}>
+                        I accept the
+                        <Text
+                            style={styles.link}
+                            onPress={() =>
+                                Linking.openURL(
+                                    "https://fakegodsbrand.com/pages/terminos-y-condiciones"
+                                )
+                            }
+                        > terms and conditions.
+                        </Text>
+                    </Text>
+                </View>
                 <Button
                     title="Submit"
                     onPress={handleSubmit}
@@ -114,43 +115,43 @@ const Register = ({ navigation }) => {
     );
 }
 const styles = StyleSheet.create({
-	titleContainer: {
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "center",
-		padding: "1rem",
-	},
-	title: {
-		fontSize: 24,
-		marginBottom: 20,
-		textAlign: "center",
-	},
-	passError: {
-		color: "red",
-	},
-	form: {
-		paddingHorizontal: "50rem",
-		display: "flex",
-		flexDirection: "column",
-		rowGap: "1rem",
-		alignContent: "center",
-	},
-	input: {
-		backgroundColor: "#FFFFFF",
-		borderColor: "#000000",
-		borderWidth: "1px",
-		borderRadius: "6px",
-		padding: ".5rem",
-	},
-	link: {
-		color: "#4ea6ed",
-		cursor: "pointer",
-	},
-	checkboxContainer: {
-		flexDirection: "row",
-		alignItems: "center",
-		marginBottom: 12,
-	},
+    titleContainer: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        padding: "1rem",
+    },
+    title: {
+        fontSize: 24,
+        marginBottom: 20,
+        textAlign: "center",
+    },
+    passError: {
+        color: "red",
+    },
+    form: {
+        paddingHorizontal: "50rem",
+        display: "flex",
+        flexDirection: "column",
+        rowGap: "1rem",
+        alignContent: "center",
+    },
+    input: {
+        backgroundColor: "#FFFFFF",
+        borderColor: "#000000",
+        borderWidth: "1px",
+        borderRadius: "6px",
+        padding: ".5rem",
+    },
+    link: {
+        color: "#4ea6ed",
+        cursor: "pointer",
+    },
+    checkboxContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: 12,
+    },
 });
 
 export default Register;
