@@ -1,10 +1,14 @@
 import { View, Text, Image, StyleSheet, Button } from "react-native";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileHeader = ({ profile, setEditingProfile }) => {
     const [ownProfile, setOwnProfile] = useState(false);
-    const [following, setFollowing] = useState(false);
+    const {followUser, unfollowUser, following, fetchFollowing, loggedInUserId} = useContext(AuthContext)
+    const [isFollowing, setIsFollowing] = useState(following.find(({followedId}) => followedId === profile.id));
+    const navigation = useNavigation();
     const isOwnProfile = async () => {
         const loggedInUserId = await AsyncStorage.getItem('loggedInUserId');
         setOwnProfile(loggedInUserId == profile.id);
@@ -12,22 +16,30 @@ const ProfileHeader = ({ profile, setEditingProfile }) => {
     const handleProfilePress = () => {
         if (ownProfile) {
             setEditingProfile(true);
-        } else if (following) {
-            // unfollow(profile.id, setFollowing);
+        } else if (isFollowing) {
+            unfollowUser(profile.id);
         } else {
-            // follow(profile.id, setFollowing);
+            followUser(profile.id);
         }
     };
+
+    const handleViewFollowing= () =>{
+        navigation.navigate("Following", {userId: profile.id});
+    };
+
     const getButtonTitle = () => {
         if (ownProfile) {
             return "Edit Profile";
         }
-        return following ? "Unfollow" : "Follow"
+        return isFollowing ? "Unfollow" : "Follow";
     };
+
     useEffect(() => {
         if (profile) {
             isOwnProfile();
         }
+        fetchFollowing(loggedInUserId);
+        setIsFollowing(following.find(({followedId}) => followedId === profile.id));
     }, [profile]);
 	return (
 		<View style={styles.container}>
@@ -49,6 +61,7 @@ const ProfileHeader = ({ profile, setEditingProfile }) => {
 			<Text style={styles.title}>
 				{`${profile.firstName} ${profile.lastName}`}
 			</Text>
+            <Button title="Following" onPress={handleViewFollowing} />
 			<Button
 				title={getButtonTitle()}
 				onPress={handleProfilePress}
