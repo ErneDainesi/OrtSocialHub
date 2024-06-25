@@ -4,29 +4,27 @@ import {
 	TextInput,
 	Button,
 	StyleSheet,
-	Alert,
 	TouchableOpacity,
+    Image
 } from "react-native";
 import { launchImageLibrary } from "react-native-image-picker";
-import React from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-const ProfileEdit = ({ setEditingProfile }) => {
-	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [profileImage, setProfileImage] = useState("");
+const ProfileEdit = ({ setEditingProfile, profile }) => {
+    const {editProfile} = useContext(AuthContext);
+	const [firstName, setFirstName] = useState(profile.firstName);
+	const [lastName, setLastName] = useState(profile.lastName);
+	const [email, setEmail] = useState(profile.email);
+	const [profileImage, setProfileImage] = useState(profile.profilePicture);
 
 	const profileSave = () => {
-		// agregar code para guardar los datos
-		Alert.alert("Updated profile", "Your data has been saved.");
+        editProfile({id: profile.id, firstName, lastName, email, profilePicture: profileImage});
 	};
 
 	const selectImage = () => {
 		launchImageLibrary({ mediaType: "photo" }, (response) => {
-			if (response.didCancel) {
-				console.log("User cancelled image picker");
-			} else if (response.errorCode) {
+            if (response.errorCode) {
 				console.log("ImagePicker Error: ", response.errorMessage);
 			} else if (response.assets && response.assets.length > 0) {
 				setProfileImage(response.assets[0].uri);
@@ -64,12 +62,6 @@ const ProfileEdit = ({ setEditingProfile }) => {
 				value={email}
 				onChangeText={setEmail}
 			/>
-			<TextInput
-				style={styles.input}
-				placeholder="Change Password"
-				value={password}
-				onChangeText={setPassword}
-			/>
 			<Button
 				title="Cancel"
 				onPress={() => {
@@ -84,7 +76,7 @@ const ProfileEdit = ({ setEditingProfile }) => {
 const styles = StyleSheet.create({
 	title: {
 		fontSize: 24,
-		marginBottom: 20,
+        marginVertical: 12,
 		textAlign: "center",
 	},
 	form: {

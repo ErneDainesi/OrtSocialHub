@@ -13,7 +13,7 @@ const Profile = ({ route }) => {
         fetchUserProfile(userId);
     }, [userId]);
 	return editingProfile ? (
-		<ProfileEdit setEditingProfile={setEditingProfile} />
+		<ProfileEdit setEditingProfile={setEditingProfile} profile={profile} />
 	) : (
 		<View>
 			<ProfileHeader profile={profile} setEditingProfile={setEditingProfile} />

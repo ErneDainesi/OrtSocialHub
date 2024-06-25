@@ -106,6 +106,33 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const editProfile = async (payload) => {
+        try {
+            let downloadUrl = "";
+            if (payload.profilePicture && profile.profilePicture !== payload.profilePicture) {
+                downloadUrl = await uploadFile(payload.profilePicture);
+            } else {
+                downloadUrl = profile.profilePicture;
+            }
+            const response = await fetch(DEV_URL + '/user/profile', {
+                method: "PUT",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({...payload, profilePicture: downloadUrl}),
+                credentials: 'include'
+            });
+            const result = await response.json();
+            if (result.success) {
+                setProfile(result.profile);
+                navigation.navigate("Profile", {userId: profile.id});
+            }
+        } catch (error) {
+            console.log("Failed to edit profile:", error.message);
+        }
+    }
+
     const values = {
         register,
         login,
@@ -115,7 +142,8 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn,
         loggedInUserId,
         setLoggedInUserId,
-        loginError
+        loginError,
+        editProfile
     };
 
     return (
