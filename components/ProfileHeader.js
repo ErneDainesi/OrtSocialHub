@@ -47,11 +47,18 @@ const ProfileHeader = ({ profile, setEditingProfile }) => {
 				{`${profile.firstName} ${profile.lastName}`}
 			</Text>
             <Button title="Following" onPress={handleViewFollowing} />
-            {ownProfile && <Button onPress={() => setEditingProfile(true)} />}
             {
-                !ownProfile && isFollowing ?
-                    <Button title="Unfollow" onPress={() => unfollowUser(profile.id, setIsFollowing)} /> :
-                    <Button title="Follow" onPress={() => followUser(profile.id, setIsFollowing)} />
+                ownProfile ?
+                    <Button title="Edit Profile" onPress={() => setEditingProfile(true)} />
+                : (
+                        <>
+                            {isFollowing ?
+                                <Button title="Unfollow" onPress={() => unfollowUser(profile.id, setIsFollowing)} />
+                                :
+                                <Button title="Follow" onPress={() => followUser(profile.id, setIsFollowing)} />
+                            }
+                        </>
+                    )
             }
 		</View>
 	);
