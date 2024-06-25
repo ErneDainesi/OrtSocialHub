@@ -45,6 +45,8 @@ export const BottomNavBar = ({loggedInUserId}) => {
             <Tab.Screen name="NewsFeed" component={NewsFeed} options={{tabBarShowLabel: false}} />  
             <Tab.Screen name="Profile" component={Profile} initialParams={{userId: loggedInUserId}} options={{tabBarShowLabel: false}} />
             <Tab.Screen name="Following" component={Following} options={{tabBarButton: () => null, tabBarShowLabel: false}} />
+            <Tab.Screen name="Login" component={Login} options={{tabBarButton: () => null, tabBarShowLabel: false}} />
+            <Tab.Screen name="Register" component={Login} options={{tabBarButton: () => null, tabBarShowLabel: false}} />
         </Tab.Navigator>
     );
 };
@@ -80,6 +82,7 @@ export const NotLoggedInBar = () => {
         >
             <Tab.Screen name="Login" component={Login} options={{tabBarShowLabel: false}} />
             <Tab.Screen name="Register" component={Register} options={{tabBarShowLabel: false}} />
+            <Tab.Screen name="Home" component={Home} options={{tabBarButton: () => null, tabBarShowLabel: false}} />
         </Tab.Navigator>
     );
 }

@@ -103,7 +103,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logout = async () => {
-        try{
+        try {
             const response = await fetch(DEV_URL + '/user/logout',{
                 method: "POST",
                 headers:{
