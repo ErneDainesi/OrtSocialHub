@@ -1,9 +1,9 @@
 import React from 'react'
-import { useContext, useEffect, useState } from "react";
-import { View, Image, Button, Text, FlatList } from "react-native";
+import { useContext, useEffect } from "react";
+import { View, Text, FlatList } from "react-native";
 import { AuthContext } from "../context/AuthContext";
 
-const Followers = ({ route }) => {
+const Following = ({ route }) => {
     const {userId} = route.params;
     const {fetchFollowers, followers} = useContext(AuthContext);
 
@@ -26,4 +26,4 @@ const Followers = ({ route }) => {
   );
 };
 
-export default Followers;
+export default Following;
