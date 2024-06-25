@@ -2,6 +2,13 @@
 
 A simple social network built with React Native.
 
+### Colaborators
+
+- Ernesto Dainesi
+- Owen Donnenfeld
+- Joaquin Darquier
+- Martin Matthew Steele MC crea
+
 ### Starting app
 
 After cloning this repository, you can run the app with:
