@@ -5,16 +5,16 @@ import { AuthContext } from "../context/AuthContext";
 
 const Following = ({ route }) => {
     const {userId} = route.params;
-    const {fetchFollowers, followers} = useContext(AuthContext);
+    const {fetchFollowing, following} = useContext(AuthContext);
 
     useEffect(() =>{
-        fetchFollowers(userId);
+        fetchFollowing(userId);
     }, [userId]);
 
     return (
         <View>
             <FlatList
-              data={followers}
+              data={following}
               keyExtractor={(item) => item.followerId}
               renderItem={({item}) =>(
                 <View>
