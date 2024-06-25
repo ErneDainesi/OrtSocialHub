@@ -98,13 +98,13 @@ export const AuthProvider = ({ children }) => {
                 credentials: 'include'
             });
             const result = await response.json();
-            if(result.success){
-                await AsyncStorage.removeItem('loggedInUsersId');
+            if (result.success) {
+                await AsyncStorage.removeItem('loggedInUserId');
                 setIsLoggedIn(false);
                 setLoggedInUserId(null);
                 navigation.navigate("Login");
             }
-        }catch(error){
+        } catch(error) {
             navigation.navigate("Error");
 
         }
