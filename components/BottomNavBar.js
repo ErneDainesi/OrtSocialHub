@@ -38,7 +38,7 @@ export const BottomNavBar = ({loggedInUserId}) => {
             <Tab.Screen name="Home" component={Home} options={{tabBarShowLabel: false}} />
             <Tab.Screen name="NewsFeed" component={NewsFeed} options={{tabBarShowLabel: false}} />  
             <Tab.Screen name="Profile" component={Profile} initialParams={{userId: loggedInUserId}} options={{tabBarShowLabel: false}} />
-            <Tab.Screen name="Following" component={Following} options={{tabBarButton: () => null}} />
+            <Tab.Screen name="Following" component={Following} options={{tabBarButton: () => null, tabBarShowLabel: false}} />
         </Tab.Navigator>
     );
 };
