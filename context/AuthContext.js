@@ -130,21 +130,23 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const followUser = async(userId) =>{
-        try{
-            const response = await fetch (DEV_URL + `/user/follow/${userId}`,{
+    const followUser = async(userId) => {
+        try {
+            const loggedInUserId = await AsyncStorage.getItem('loggedInUserId');
+            const response = await fetch (DEV_URL + '/user/follow',{
                 method: "POST",
                 headers:{
                    'Accept' : 'application/json',
                    'Content-type' : 'application/json', 
                 },
+                body: JSON.stringify({followerId: loggedInUserId, followedId: userId}),
                 credentials: 'include'
-            } );
+            });
             const result = await response.json();
-            if(result.succes){
+            if (result.succes) {
                 setFollowing([...following, userId]);
                 console.log("Followed user ok");
-            }else{
+            } else {
                 console.log("Error: ", result.message);
             }
         }catch(error){
@@ -152,47 +154,45 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const unfollowUser = async(userId) =>{
-        try{
-            const response = await fetch (DEV_URL + `/user/unfollow/${userId}`,{
+    const unfollowUser = async(userId) => {
+        try {
+            const response = await fetch (DEV_URL + "/user/unfollow", {
                 method: "POST",
-                headers:{
+                headers: {
                    'Accept' : 'application/json',
                    'Content-type' : 'application/json', 
                 },
+                body: JSON.stringify({followerId: loggedInUserId, followedId: userId}),
                 credentials: 'include'
-            } );
+            });
             const result = await response.json();
-            if(result.succes){
+            if (result.succes) {
                setFollowing(following.filter(id => id !== userId));
                console.log("Unfollowed user ok");
-            } else{
+            } else {
                 console.log("Error: ", result.message);
             }
-        }catch(error){
+        } catch(error) {
             navigation.navigate("Error");
         }
     };
 
-    const fetchFollowers = async(userId) =>{
-        try{
-            const response = await fetch (DEV_URL + `/user/followers/${userId}`,{
+    const fetchFollowers = async(userId) => {
+        try {
+            const response = await fetch (DEV_URL + `/user/followers/${userId}`, {
                 method: 'GET' ,
                 credentials: 'include'
-            } );
+            });
             const result = await response.json();
-            if(result.succes){
+            if (result.succes) {
                 setFollowers(result.followers);
-                return result;
-            } else{
-                console.log("Error");
+            } else {
+                console.log("Error", result);
             }
-        }catch(error){
+        } catch(error) {
             navigation.navigate("Error");
         }
     };
-
-
 
     const values = {
         register,

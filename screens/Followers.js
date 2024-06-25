@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { View, Image, Button, Text, FlatList } from "react-native";
 import { AuthContext } from "../context/AuthContext";
 
-export const Followers = ({ route }) => {
+const Followers = ({ route }) => {
     const {userId} = route.params;
     const{ fetchFollowers, Followers}= useContext(AuthContext);
     const[ localFollowers, setLocalFollowers] = useState([]);

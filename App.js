@@ -10,6 +10,7 @@ import NewsFeed from './screens/NewsFeed';
 import { AuthContext, AuthProvider } from './context/AuthContext';
 import { FeedProvider } from './context/FeedContext'
 import { NewsPostProvider } from './context/NewsPostContext';
+import Followers from './screens/Followers';
 
 const Stack = createStackNavigator();
 

@@ -6,8 +6,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = ({ route, navigation }) => {
     const [ownProfile, setOwnProfile] = useState(false);
-    const {profile, fetchUserProfile, followUser, unfollowUser, fetchFollowers, following} = useContext(AuthContext)
-    const {userId} = route.params;
+    const {profile, fetchUserProfile, followUser, unfollowUser, following} = useContext(AuthContext)
+    const { userId } = route.params;
     
     const isOwnProfile = async () => {
         const loggedInUserId = await AsyncStorage.getItem('loggedInUserId');
