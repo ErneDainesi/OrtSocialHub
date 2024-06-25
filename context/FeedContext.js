@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useState } from "react";
-import { Platform } from "react-native";
 import { v4 } from "uuid";
 import { storage } from "../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
@@ -13,8 +12,7 @@ export const FeedProvider = ({ children }) => {
 
     const fetchHomeFeed = async () => {
         try {
-            const currentUserId = await AsyncStorage.getItem('loggedInUserId');
-            const response = await fetch(DEV_URL + `/posts/home/${currentUserId}`, {
+            const response = await fetch(DEV_URL + '/posts/home', {
                 method: 'GET',
                 credentials: 'include'
             });

@@ -53,7 +53,7 @@ const Profile = ({ route, navigation }) => {
                     </>
                  )}
               </View>
-              <Feed id={profile.id} isProfile={true} />
+              <Feed id={userId} isProfile={true} />
             
             </>)}
         </View>
