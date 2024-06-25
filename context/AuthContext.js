@@ -11,6 +11,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const navigation = useNavigation();
     const [profile, setProfile] = useState(null);
+    const [loginError, setLoginError] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loggedInUserId, setLoggedInUserId] = useState(null);
     const [followers, setFollowers] = useState([]);
@@ -83,11 +84,35 @@ export const AuthProvider = ({ children }) => {
                 setIsLoggedIn(true);
                 setLoggedInUserId(id);
                 navigation.navigate("Home");
+            } else {
+                setLoginError(true);
             }
         } catch (error) {
-            navigation.navigate("Error");
+            setLoginError(true);
         }
     }
+
+    const logout = async () => {
+        try{
+            const response = await fetch(DEV_URL + '/user/logout',{
+                method: "POST",
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                },
+                credentials: 'include'
+            });
+            const result = await response.json();
+            if (result.success) {
+                await AsyncStorage.removeItem('loggedInUserId');
+                setIsLoggedIn(false);
+                setLoggedInUserId(null);
+                navigation.navigate("Login");
+            }
+        } catch(error) {
+            navigation.navigate("Error");
+        }
+    };
 
 
     const fetchUserProfile = async (userId) => {
@@ -175,6 +200,7 @@ export const AuthProvider = ({ children }) => {
         followUser,
         unfollowUser,
         fetchFollowers,
+        logout,
         profile,
         fetchUserProfile,
         isLoggedIn,
@@ -182,7 +208,8 @@ export const AuthProvider = ({ children }) => {
         loggedInUserId,
         setLoggedInUserId,
         followers,
-        following
+        following,
+        loginError
     };
 
     return (

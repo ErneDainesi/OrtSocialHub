@@ -1,13 +1,18 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Button } from "react-native";
 import Composer from "../components/Composer";
 import Feed from "../components/Feed";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const Home = () => {
-    const { loggedInUserId } = useContext(AuthContext);
+    const { loggedInUserId, logout } = useContext(AuthContext);
+    // TODO: remove the logout button from here
     return (
         <View style={styles.flex}>
+            <Button
+                title="Logout"
+                onPress={logout}
+            ></Button>
             <Composer userId={loggedInUserId}></Composer>
             <Feed id={loggedInUserId} isProfile={false} style={styles.feed} />
         </View>
