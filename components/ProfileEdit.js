@@ -19,7 +19,10 @@ const ProfileEdit = ({ setEditingProfile, profile }) => {
 	const [profileImage, setProfileImage] = useState(profile.profilePicture);
 
 	const profileSave = () => {
-        editProfile({id: profile.id, firstName, lastName, email, profilePicture: profileImage});
+        editProfile(
+            {id: profile.id, firstName, lastName, email, profilePicture: profileImage},
+            setEditingProfile
+        );
 	};
 
 	const selectImage = () => {

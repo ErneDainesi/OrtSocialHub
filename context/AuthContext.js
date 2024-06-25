@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const editProfile = async (payload) => {
+    const editProfile = async (payload, setEditingProfile) => {
         try {
             let downloadUrl = "";
             if (payload.profilePicture && profile.profilePicture !== payload.profilePicture) {
@@ -125,8 +125,8 @@ export const AuthProvider = ({ children }) => {
             });
             const result = await response.json();
             if (result.success) {
-                setProfile(result.profile);
-                navigation.navigate("Profile", {userId: profile.id});
+                setProfile(result.user);
+                setEditingProfile(false);
             }
         } catch (error) {
             console.log("Failed to edit profile:", error.message);
