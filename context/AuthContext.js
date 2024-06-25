@@ -39,8 +39,18 @@ export const AuthProvider = ({ children }) => {
         return url;
     }
 
-    const register = async (payload) => {
+    const validatePassword = (password) => {
+        // Regular expression to check password strength
+        const regex = /^(?=.*[A-Z])(?=.*\W).{12,}$/;
+        return regex.test(password);
+    };
+
+    const register = async (payload, setPasswordError) => {
         try {
+            if (!validatePassword(payload.password)) {
+                setPasswordError(true);
+                return;
+            }
             let downloadUrl = "";
             if (payload.profilePicture) {
                 downloadUrl = await uploadFile(payload.profilePicture);
@@ -177,10 +187,37 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const editProfile = async (payload, setEditingProfile) => {
+        try {
+            let downloadUrl = "";
+            if (payload.profilePicture && profile.profilePicture !== payload.profilePicture) {
+                downloadUrl = await uploadFile(payload.profilePicture);
+            } else {
+                downloadUrl = profile.profilePicture;
+            }
+            const response = await fetch(DEV_URL + '/user/profile', {
+                method: "PUT",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({...payload, profilePicture: downloadUrl}),
+                credentials: 'include'
+            });
+            const result = await response.json();
+            if (result.success) {
+                setProfile(result.user);
+                setEditingProfile(false);
+            }
+        } catch (error) {
+            console.log("Failed to edit profile:", error.message);
+        }
+    }
+
     const fetchFollowers = async(userId) => {
         try {
             const response = await fetch (DEV_URL + `/user/followers/${userId}`, {
-                method: 'GET' ,
+                method: 'GET',
                 credentials: 'include'
             });
             const result = await response.json();
@@ -209,7 +246,8 @@ export const AuthProvider = ({ children }) => {
         setLoggedInUserId,
         followers,
         following,
-        loginError
+        loginError,
+        editProfile
     };
 
     return (
