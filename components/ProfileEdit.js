@@ -7,8 +7,8 @@ import {
 	TouchableOpacity,
     Image
 } from "react-native";
-import { launchImageLibrary } from "react-native-image-picker";
 import { useContext, useState } from "react";
+import * as ImagePicker from 'expo-image-picker';
 import { AuthContext } from "../context/AuthContext";
 
 const ProfileEdit = ({ setEditingProfile, profile }) => {
@@ -25,14 +25,16 @@ const ProfileEdit = ({ setEditingProfile, profile }) => {
         );
 	};
 
-	const selectImage = () => {
-		launchImageLibrary({ mediaType: "photo" }, (response) => {
-            if (response.errorCode) {
-				console.log("ImagePicker Error: ", response.errorMessage);
-			} else if (response.assets && response.assets.length > 0) {
-				setProfileImage(response.assets[0].uri);
-			}
-		});
+	const selectImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+        if (!result.canceled && result.assets && result.assets.length) {
+            setProfileImage(result.assets[0].uri);
+        }
 	};
 
 	return (
