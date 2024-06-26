@@ -12,9 +12,12 @@ export const FeedProvider = ({ children }) => {
 
     const fetchHomeFeed = async () => {
         try {
+            const jwt = await AsyncStorage.getItem('token');
             const response = await fetch(DEV_URL + '/posts/home', {
                 method: 'GET',
-                credentials: 'include'
+                headers: {
+                    'Authorization': `Bearer ${jwt}`
+                }
             });
             const data = await response.json();
             setPosts(data.posts);
@@ -25,9 +28,12 @@ export const FeedProvider = ({ children }) => {
 
     const fetchProfileFeed = async (userId) => {
         try {
+            const jwt = await AsyncStorage.getItem('token');
             const response = await fetch(DEV_URL + `/posts/profile/${userId}`, {
                 method: 'GET',
-                credentials: 'include'
+                headers: {
+                    'Authorization': `Bearer ${jwt}`
+                }
             });
             const data = await response.json();
             setPosts(data.posts);
@@ -48,6 +54,7 @@ export const FeedProvider = ({ children }) => {
 
     const post = async (text, attachmentUri) => {
         try {
+            const jwt = await AsyncStorage.getItem('token');
             const currentUserId = await AsyncStorage.getItem('loggedInUserId');
             let attachmentUrl = '';
             if (attachmentUri) {
@@ -57,6 +64,7 @@ export const FeedProvider = ({ children }) => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
                 },
                 body: JSON.stringify({UserId: currentUserId, text, attachmentUrl}),
                 credentials: 'include'

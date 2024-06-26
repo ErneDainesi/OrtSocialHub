@@ -8,7 +8,7 @@ export const NewsPostProvider = ({ children }) => {
 
     useEffect(()=>{
         const fetchPost= async () => {
-            try{
+            try {
                 const response = await fetch(NEWS_API_URL);
                 const data = await response.json();
                 const formattedData = data.articles.map((article, index)=>({
