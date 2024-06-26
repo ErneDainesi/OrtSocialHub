@@ -161,7 +161,7 @@ export const AuthProvider = ({ children }) => {
         try {
             const jwt = await AsyncStorage.getItem('token');
             const response = await fetch (DEV_URL + "/user/unfollow", {
-                method: "POST",
+                method: "DELETE",
                 headers: {
                     'Accept' : 'application/json',
                     'Content-type' : 'application/json',
