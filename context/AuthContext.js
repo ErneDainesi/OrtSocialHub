@@ -102,22 +102,10 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            const jwt = await AsyncStorage.getItem('token');
-            const response = await fetch(DEV_URL + '/user/logout',{
-                method: "POST",
-                headers:{
-                    'Accept': 'application/json',
-                    'Content-type': 'application/json',
-                    'Authorization': `Bearer ${jwt}`
-                }
-            });
-            const result = await response.json();
-            if (result.success) {
-                await AsyncStorage.removeItem('loggedInUserId');
-                await AsyncStorage.removeItem('token');
-                setIsLoggedIn(false);
-                setLoggedInUserId(null);
-            }
+            await AsyncStorage.removeItem('loggedInUserId');
+            await AsyncStorage.removeItem('token');
+            setIsLoggedIn(false);
+            setLoggedInUserId(null);
             navigation.navigate("Login");
         } catch(error) {
             console.log(error.message)
