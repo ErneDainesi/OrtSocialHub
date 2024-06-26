@@ -26,7 +26,9 @@ const Post = ({ post }) => {
                 >
                     <View style={styles.postCreatorContainer}>
                         <Image
-                            source={{uri: user.profilePicture}}
+                            source={user.profilePicture.length ? {uri: user.profilePicture} : {
+                                uri: "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg",
+                            }}
                             style={styles.postCreatorImg}
                         />
                     </View>
