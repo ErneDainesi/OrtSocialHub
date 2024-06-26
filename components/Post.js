@@ -26,7 +26,9 @@ const Post = ({ post }) => {
                 >
                     <View style={styles.postCreatorContainer}>
                         <Image
-                            source={{uri: user.profilePicture}}
+                            source={user.profilePicture.length ? {uri: user.profilePicture} : {
+                                uri: "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg",
+                            }}
                             style={styles.postCreatorImg}
                         />
                     </View>
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
         marginRight: 12
     },
     postCreatorContainer: {
-        borderRadius: '100%',
+        borderRadius: 12,
         height: 50,
         width: 50,
         overflow: 'hidden',
@@ -70,13 +72,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     postCreatorImg: {
-        borderRadius: '100%',
+        borderRadius: 12,
         objectFit: 'cover',
         height: '100%',
         width: '100%'
     },
     content: {
-        flexGrow: '1'
+        flexGrow: 1
     },
     contentHeader: {
         marginBottom: 12

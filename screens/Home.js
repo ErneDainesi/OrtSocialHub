@@ -13,16 +13,15 @@ const Home = () => {
                 onPress={logout}
             ></Button>
             <Composer userId={loggedInUserId}></Composer>
-            <Feed id={loggedInUserId} isProfile={false} style={styles.feed} />
+            <Feed isProfile={false} style={styles.feed} />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     flex: {
-        display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        flex: 1
     },
     feed: {
         marginTop: '2rem'

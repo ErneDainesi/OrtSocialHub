@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Button, Pressable, StyleSheet, TextInput, View, Image } from "react-native";
 import { FeedContext } from "../context/FeedContext";
 import { useNavigation } from "@react-navigation/native";
-import { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from 'expo-image-picker';
 import { AuthContext } from "../context/AuthContext";
 
 const Composer = ({ userId }) => {
@@ -20,9 +20,14 @@ const Composer = ({ userId }) => {
         navigation.navigate("Profile", {userId});
     }
     const selectImage = async () => {
-        const result = await launchImageLibrary();
-        if (!result.didCancel && result.assets && result.assets.length) {
-            setAttachment(result.assets[0].uri)
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+        if (!result.canceled && result.assets && result.assets.length) {
+            setAttachment(result.assets[0].uri);
         }
     }
     useEffect(() => {
@@ -77,9 +82,12 @@ const Composer = ({ userId }) => {
 
 const styles = StyleSheet.create({
     container: {
-        minWidth: 390,
         marginTop: 24,
-        paddingVertical: 22
+        paddingVertical: 22,
+        display: 'flex',
+        alignSelf: 'flex-start',
+        maxWidth: 250,
+        marginHorizontal: 'auto'
     },
     containerInner: {
         padding: 12,
@@ -87,7 +95,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'flex-start',
         flexDirection: 'row',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
+        width: '100%'
     },
     profileImgLink: {
         marginRight: 12
@@ -102,13 +111,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     profileImg: {
-        borderRadius: '100%',
+        borderRadius: 12,
         objectFit: 'cover',
         height: '100%',
         width: '100%'
     },
     editor: {
-        flexGrow: '1'
+        width: '100%'
     },
     input: {
         width: '100%',
@@ -129,7 +138,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'flex-end',
-        columnGap: '.5rem',
+        columnGap: 6,
         marginTop: 12
     },
     attachButton: {},

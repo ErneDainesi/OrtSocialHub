@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { createContext, useEffect, useState } from "react";
 import { DEV_URL } from "../config";
+import 'react-native-get-random-values';
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { storage } from "../utils/firebase";
@@ -67,12 +68,10 @@ export const AuthProvider = ({ children }) => {
             if (result.success) {
                 navigation.navigate("Login");
             } else {
-                console.log(result);
-                navigation.navigate("Error");
+                console.log("error", result);
             }
         } catch (error) {
-            console.log(error);
-            navigation.navigate("Error");
+            console.log("falle en el register", error.message);
         }
     }
 
@@ -84,15 +83,15 @@ export const AuthProvider = ({ children }) => {
                     'Accept': 'application/json',
                     'Content-type': 'application/json',
                 },
-                body: JSON.stringify(payload),
-                credentials: 'include'
+                body: JSON.stringify(payload)
             });
             const result = await response.json();
             if (result.success) {
-                const id = result.loggedInUserId;
-                await AsyncStorage.setItem('loggedInUserId', id);
+                const {loggedInUserId, token} = result;
+                await AsyncStorage.setItem('loggedInUserId', loggedInUserId);
+                await AsyncStorage.setItem('token', token);
                 setIsLoggedIn(true);
-                setLoggedInUserId(id);
+                setLoggedInUserId(loggedInUserId);
                 navigation.navigate("Home");
             } else {
                 setLoginError(true);
@@ -104,50 +103,45 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            const response = await fetch(DEV_URL + '/user/logout',{
-                method: "POST",
-                headers:{
-                    'Accept': 'application/json',
-                    'Content-type': 'application/json',
-                },
-                credentials: 'include'
-            });
-            const result = await response.json();
-            if (result.success) {
-                await AsyncStorage.removeItem('loggedInUserId');
-                setIsLoggedIn(false);
-                setLoggedInUserId(null);
-                navigation.navigate("Login");
-            }
+            await AsyncStorage.removeItem('loggedInUserId');
+            await AsyncStorage.removeItem('token');
+            setIsLoggedIn(false);
+            setLoggedInUserId(null);
+            navigation.navigate("Login");
         } catch(error) {
-            navigation.navigate("Error");
+            console.log(error.message)
         }
     };
 
 
     const fetchUserProfile = async (userId) => {
         try {
+            const jwt = await AsyncStorage.getItem('token');
             const response = await fetch(DEV_URL + `/user/profile/${userId}`, {
                 method: 'GET',
-                credentials: 'include'
+                headers: {
+                    'Authorization': `Bearer ${jwt}`
+                }
             });
             const result = await response.json();
             if (result.success) {
                 setProfile(result.user);
             }
         } catch (error) {
-            navigation.navigate("Error");
+            console.log(error.message)
         }
     }
 
     const followUser = async(userId, setIsFollowing) => {
         try {
+            const jwt = await AsyncStorage.getItem('token');
             const loggedInUserId = await AsyncStorage.getItem('loggedInUserId');
             const response = await fetch (DEV_URL + '/user/follow',{
                 method: "POST",
                 headers:{
                     'Accept' : 'application/json',
-                    'Content-type' : 'application/json'
+                    'Content-type' : 'application/json',
+                    'Authorization': `Bearer ${jwt}`
                 },
                 body: JSON.stringify({followerId: loggedInUserId, followedId: userId}),
                 credentials: 'include'
@@ -160,17 +154,19 @@ export const AuthProvider = ({ children }) => {
                 console.log("Error: ", result.message);
             }
         } catch(error) {
-            navigation.navigate("Error");
+            console.log(error.message)
         }
     };
 
     const unfollowUser = async(userId, setIsFollowing) => {
         try {
+            const jwt = await AsyncStorage.getItem('token');
             const response = await fetch (DEV_URL + "/user/unfollow", {
-                method: "POST",
+                method: "DELETE",
                 headers: {
                     'Accept' : 'application/json',
-                    'Content-type' : 'application/json'
+                    'Content-type' : 'application/json',
+                    'Authorization': `Bearer ${jwt}`
                 },
                 body: JSON.stringify({followerId: loggedInUserId, followedId: userId}),
                 credentials: 'include'
@@ -183,12 +179,13 @@ export const AuthProvider = ({ children }) => {
                 console.log("Error: ", result.message);
             }
         } catch(error) {
-            navigation.navigate("Error");
+            console.log(error.message)
         }
     };
 
     const editProfile = async (payload, setEditingProfile) => {
         try {
+            const jwt = await AsyncStorage.getItem('token');
             let downloadUrl = "";
             if (payload.profilePicture && profile.profilePicture !== payload.profilePicture) {
                 downloadUrl = await uploadFile(payload.profilePicture);
@@ -200,9 +197,9 @@ export const AuthProvider = ({ children }) => {
                 headers: {
                     'Accept': 'application/json',
                     'Content-type': 'application/json',
+                    'Authorization': `Bearer ${jwt}`
                 },
-                body: JSON.stringify({...payload, profilePicture: downloadUrl}),
-                credentials: 'include'
+                body: JSON.stringify({...payload, profilePicture: downloadUrl})
             });
             const result = await response.json();
             if (result.success) {
@@ -216,9 +213,12 @@ export const AuthProvider = ({ children }) => {
 
     const fetchFollowing = async(userId) => {
         try {
+            const jwt = await AsyncStorage.getItem('token');
             const response = await fetch (DEV_URL + `/user/followers/${userId}`, {
                 method: 'GET',
-                credentials: 'include'
+                headers: {
+                    'Authorization': `Bearer ${jwt}`
+                }
             });
             const result = await response.json();
             if (result.success) {
@@ -227,7 +227,7 @@ export const AuthProvider = ({ children }) => {
                 console.log("Error", result);
             }
         } catch(error) {
-            navigation.navigate("Error");
+            console.log(error.message)
         }
     };
 

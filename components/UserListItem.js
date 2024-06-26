@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         marginRight: 12
     },
     userContainer: {
-        borderRadius: '100%',
+        borderRadius: 12,
         height: 70,
         width: 70,
         overflow: 'hidden',
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     userImg: {
-        borderRadius: '100%',
+        borderRadius: 12,
         objectFit: 'cover',
         height: '100%',
         width: '100%'
