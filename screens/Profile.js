@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { AuthContext } from "../context/AuthContext";
 import ProfileHeader from "../components/ProfileHeader";
 import ProfileEdit from "../components/ProfileEdit";
@@ -15,11 +15,18 @@ const Profile = ({ route }) => {
 	return editingProfile ? (
 		<ProfileEdit setEditingProfile={setEditingProfile} profile={profile} />
 	) : (
-		<View>
+		<View style={styles.flex}>
 			<ProfileHeader profile={profile} setEditingProfile={setEditingProfile} />
 			<Feed id={profile.id} isProfile={true} />
 		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+    flex: {
+        flexDirection: 'column',
+        flex: 1
+    }
+});
 
 export default Profile;

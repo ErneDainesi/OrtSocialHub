@@ -13,12 +13,14 @@ const Feed = (props) => {
             fetchHomeFeed();
         }
     }, []);
+    const renderItem = ({item}) => <Post post={item} />;
     return (
         <View style={styles.feed}>
             <FlatList
                 data={posts}
-                renderItem={data => <Post post={data.item} />}
+                renderItem={renderItem}
                 keyExtractor={data => data.id}
+                contentContainerStyle={styles.list}
             />
         </View>
     );
@@ -27,10 +29,11 @@ const Feed = (props) => {
 const styles = StyleSheet.create({
 	feed: {
 		marginTop: "2rem",
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
+        flex: 1
 	},
+    list: {
+        paddingBottom: 20
+    }
 });
 
 export default Feed;

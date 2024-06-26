@@ -77,9 +77,12 @@ const Composer = ({ userId }) => {
 
 const styles = StyleSheet.create({
     container: {
-        minWidth: 390,
         marginTop: 24,
-        paddingVertical: 22
+        paddingVertical: 22,
+        display: 'flex',
+        alignSelf: 'flex-start',
+        maxWidth: 250,
+        marginHorizontal: 'auto'
     },
     containerInner: {
         padding: 12,
@@ -87,7 +90,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'flex-start',
         flexDirection: 'row',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
+        width: '100%'
     },
     profileImgLink: {
         marginRight: 12
@@ -108,7 +112,7 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     editor: {
-        flexGrow: '1'
+        width: '100%'
     },
     input: {
         width: '100%',

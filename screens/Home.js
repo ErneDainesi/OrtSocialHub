@@ -20,9 +20,8 @@ const Home = () => {
 
 const styles = StyleSheet.create({
     flex: {
-        display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        flex: 1
     },
     feed: {
         marginTop: '2rem'
