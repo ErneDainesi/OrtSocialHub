@@ -13,7 +13,7 @@ const Home = () => {
                 onPress={logout}
             ></Button>
             <Composer userId={loggedInUserId}></Composer>
-            <Feed id={loggedInUserId} isProfile={false} style={styles.feed} />
+            <Feed isProfile={false} style={styles.feed} />
         </View>
     );
 };

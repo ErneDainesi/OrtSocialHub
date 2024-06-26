@@ -2,17 +2,22 @@ import { useContext, useEffect } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { FeedContext } from "../context/FeedContext";
 import Post from "./Post";
+import { useNavigation } from "@react-navigation/native";
 
 const Feed = (props) => {
     const { posts, fetchProfileFeed, fetchHomeFeed } = useContext(FeedContext);
     const { id, isProfile } = props;
+    const navigation = useNavigation();
     useEffect(() => {
-        if (isProfile) {
-            fetchProfileFeed(id);
-        } else {
-            fetchHomeFeed();
-        }
-    }, []);
+        const unsubscribe = navigation.addListener("focus", () => {
+            if (isProfile) {
+                fetchProfileFeed(id);
+            } else {
+                fetchHomeFeed();
+            }
+        });
+        return unsubscribe;
+    }, [id, navigation]);
     const renderItem = ({item}) => <Post post={item} />;
     return (
         <View style={styles.feed}>

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Home from '../screens/Home';
@@ -43,7 +42,16 @@ export const BottomNavBar = ({loggedInUserId}) => {
         >
             <Tab.Screen name="Home" component={Home} options={{tabBarShowLabel: false}} />
             <Tab.Screen name="NewsFeed" component={NewsFeed} options={{tabBarShowLabel: false}} />  
-            <Tab.Screen name="Profile" component={Profile} initialParams={{userId: loggedInUserId}} options={{tabBarShowLabel: false}} />
+            <Tab.Screen name="Profile" component={Profile}
+                initialParams={{userId: loggedInUserId}}
+                options={{tabBarShowLabel: false}} 
+                listeners={({navigation}) => ({
+                    tabPress: (e) => {
+                        e.preventDefault();
+                        navigation.navigate('Profile', { userId: loggedInUserId });
+                    }
+                })}
+            />
             <Tab.Screen name="Following" component={Following} options={{tabBarButton: () => null, tabBarShowLabel: false}} />
             <Tab.Screen name="Login" component={Login} options={{tabBarButton: () => null, tabBarShowLabel: false}} />
             <Tab.Screen name="Register" component={Login} options={{tabBarButton: () => null, tabBarShowLabel: false}} />

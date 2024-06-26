@@ -17,7 +17,7 @@ const Profile = ({ route }) => {
 	) : (
 		<View style={styles.flex}>
 			<ProfileHeader profile={profile} setEditingProfile={setEditingProfile} />
-			<Feed id={profile.id} isProfile={true} />
+			<Feed id={userId} isProfile={true} />
 		</View>
 	);
 };
