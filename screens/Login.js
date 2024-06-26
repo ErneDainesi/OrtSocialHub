@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        padding: '1rem',
+        padding: 12,
     },
     title: {
         fontSize: 24,
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         marginBottom: 12
     },
     form: {
-        paddingHorizontal: '50rem',
+        paddingHorizontal: 50,
         display: 'flex',
         flexDirection: 'column',
         rowGap: 10,
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: '#FFFFFF',
         borderColor: '#000000',
-        borderWidth: '1px',
-        borderRadius: '6px',
+        borderWidth: 1,
+        borderRadius: 6,
         padding: 5
     },
     link: {

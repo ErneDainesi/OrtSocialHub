@@ -83,18 +83,18 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 	form: {
-		paddingHorizontal: "50rem",
+		paddingHorizontal: 50,
 		display: "flex",
 		flexDirection: "column",
-		rowGap: "1rem",
+		rowGap: 12,
 		alignContent: "center",
 	},
 	input: {
 		backgroundColor: "#FFFFFF",
 		borderColor: "#000000",
-		borderWidth: "1px",
-		borderRadius: "6px",
-		padding: ".5rem",
+		borderWidth: 1,
+		borderRadius: 6,
+		padding: 6,
 	},
 	profileImage: {
 		width: 100,
@@ -107,14 +107,14 @@ const styles = StyleSheet.create({
 		width: 100,
 		height: 100,
 		borderRadius: 50,
-		backgroundColor: "#ccc",
+		backgroundColor: "#cccccc",
 		justifyContent: "center",
 		alignItems: "center",
 		alignSelf: "center",
 		marginBottom: 16,
 	},
 	placeholderText: {
-		color: "#fff",
+		color: "#FFFFFF",
 	},
 });
 

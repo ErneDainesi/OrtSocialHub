@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
     profileImgContainer: {
-        borderRadius: '100%',
+        borderRadius: 16,
         height: 175,
         width: 175,
         overflow: 'hidden',
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
 	profileImg: {
-        borderRadius: '100%',
+        borderRadius: 16,
         objectFit: 'cover',
         height: '100%',
         width: '100%'

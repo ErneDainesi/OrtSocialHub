@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     profileImg: {
-        borderRadius: '100%',
+        borderRadius: 12,
         objectFit: 'cover',
         height: '100%',
         width: '100%'
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'flex-end',
-        columnGap: '.5rem',
+        columnGap: 6,
         marginTop: 12
     },
     attachButton: {},

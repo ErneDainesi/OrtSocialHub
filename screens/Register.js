@@ -26,7 +26,7 @@ const Register = ({ navigation }) => {
     const selectProfilePicture = async () => {
         const result = await launchImageLibrary();
         if (!result.didCancel && result.assets && result.assets.length) {
-            setProfilePicture(result.assets[0].uri)
+            setProfilePicture(result.assets[0].uri);
         }
     }
 
