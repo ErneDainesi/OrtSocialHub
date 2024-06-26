@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Button, Pressable, StyleSheet, TextInput, View, Image } from "react-native";
 import { FeedContext } from "../context/FeedContext";
 import { useNavigation } from "@react-navigation/native";
-import { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from 'expo-image-picker';
 import { AuthContext } from "../context/AuthContext";
 
 const Composer = ({ userId }) => {
@@ -20,9 +20,14 @@ const Composer = ({ userId }) => {
         navigation.navigate("Profile", {userId});
     }
     const selectImage = async () => {
-        const result = await launchImageLibrary();
-        if (!result.didCancel && result.assets && result.assets.length) {
-            setAttachment(result.assets[0].uri)
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+        if (!result.canceled && result.assets && result.assets.length) {
+            setAttachment(result.assets[0].uri);
         }
     }
     useEffect(() => {

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { AuthContext } from "../context/AuthContext";
 import CheckBox from "react-native-check-box";
-import { launchImageLibrary } from "react-native-image-picker";
+import * as ImagePicker from 'expo-image-picker';
 
 const Register = ({ navigation }) => {
     const [firstName, setFirstName] = useState('');
@@ -24,8 +24,13 @@ const Register = ({ navigation }) => {
     const { register } = useContext(AuthContext);
 
     const selectProfilePicture = async () => {
-        const result = await launchImageLibrary();
-        if (!result.didCancel && result.assets && result.assets.length) {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+        if (!result.canceled && result.assets && result.assets.length) {
             setProfilePicture(result.assets[0].uri);
         }
     }

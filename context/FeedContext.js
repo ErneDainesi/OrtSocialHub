@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useState } from "react";
+import 'react-native-get-random-values';
 import { v4 } from "uuid";
 import { storage } from "../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";

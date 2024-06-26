@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { createContext, useEffect, useState } from "react";
 import { DEV_URL } from "../config";
+import 'react-native-get-random-values';
 import { v4 } from "uuid";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { storage } from "../utils/firebase";
@@ -70,7 +71,7 @@ export const AuthProvider = ({ children }) => {
                 console.log("error", result);
             }
         } catch (error) {
-            console.log(error);
+            console.log("falle en el register", error.message);
         }
     }
 
